@@ -3,6 +3,11 @@ const connectDB = require('./config/db');
 require('dotenv').config({ debug: false });
 const cors = require('cors');
 
+
+//Imports routes
+const authRoutes = require('./routes/auth');
+const bookRoutes = require('./routes/books');
+
 const app = express();
 
 //Middleware
@@ -11,6 +16,11 @@ app.use(express.json());
 
 //Connect Database
 connectDB();
+
+//Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/books', bookRoutes);
+
 
 app.get('/', (req, res) => {
     res.send('Server is running');
