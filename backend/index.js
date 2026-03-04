@@ -7,6 +7,8 @@ const cors = require('cors');
 //Imports routes
 const authRoutes = require('./routes/auth');
 const bookRoutes = require('./routes/books');
+const issueRoutes = require('./routes/issues');
+const userRoutes = require('./routes/users');
 
 const app = express();
 
@@ -20,6 +22,8 @@ connectDB();
 //Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
+app.use('/api/issues', issueRoutes);
+app.use('/api/users', userRoutes);
 
 
 app.get('/', (req, res) => {
