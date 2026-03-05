@@ -1,0 +1,244 @@
+import React, { useState, useEffect } from 'react';
+import { useTheme } from '../../hooks/useTheme';
+import { useAuth } from '../../hooks/useAuth';
+import axios from 'axios';
+import { FiSearch, FiSend } from 'react-icons/fi';
+import BookRequestModal from '../../components/BookRequests';
+
+const BookRequests = () => {
+    const { isDarkMode } = useTheme();
+    const { user } = useAuth();
+    const [allBooks, setAllBooks] = useState([]);
+    const [requests, setRequests] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedBook, setSelectedBook] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+  
+    useEffect(() => {
+      fetchData();
+    }, []);
+  
+    const fetchData = async () => {
+      try {
+        const [booksRes, requestsRes] = await Promise.all([
+          axios.get('http://localhost:5000/api/books'),
+          axios.get(`http://localhost:5000/api/requests/user/${user.id}`),
+        ]);
+        setAllBooks(booksRes.data.books);
+        setRequests(requestsRes.data.requests);
+      } catch (error) {
+        setError('Error fetching data');
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    const handleRequestBook = async (bookId, message) => {
+      try {
+        await axios.post('http://localhost:5000/api/requests', {
+          bookId,
+          requestMessage: message,
+        });
+        setSuccess('Request submitted successfully!');
+        setShowModal(false);
+        setSelectedBook(null);
+        fetchData();
+        setTimeout(() => setSuccess(''), 3000);
+      } catch (error) {
+        setError(error.response?.data?.message || 'Error submitting request');
+      }
+    };
+  
+    const filteredBooks = allBooks.filter(
+      (book) =>
+        book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        book.author.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  
+    const requestedBookIds = requests.filter((r) => r.status === 'pending').map((r) => r.bookId?._id);
+  
+    if (loading) {
+      return (
+        <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+          <p>Loading...</p>
+        </div>
+      );
+    }
+  
+    return (
+      <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <h1 className="text-4xl font-bold mb-8">📝 Book Requests</h1>
+  
+          {error && (
+            <div className="mb-4 p-4 bg-red-100 text-red-700 rounded">
+              {error}
+              <button onClick={() => setError('')} className="float-right">✕</button>
+            </div>
+          )}
+  
+          {success && (
+            <div className="mb-4 p-4 bg-green-100 text-green-700 rounded">
+              {success}
+              <button onClick={() => setSuccess('')} className="float-right">✕</button>
+            </div>
+          )}
+  
+          {/* My Requests */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold mb-4">My Requests</h2>
+            {requests.length === 0 ? (
+              <div className={`p-6 rounded-lg text-center ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                <p>No requests yet.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-4">
+                {requests.map((req) => (
+                  <div
+                    key={req._id}
+                    className={`p-6 rounded-lg ${
+                      isDarkMode ? 'bg-gray-800' : 'bg-white'
+                    } shadow`}
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg">{req.bookId?.title}</h3>
+                        <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          by {req.bookId?.author}
+                        </p>
+                        {req.requestMessage && (
+                          <p className={`text-sm mt-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                            Your Message: {req.requestMessage}
+                          </p>
+                        )}
+                      </div>
+                      <span className={`px-3 py-1 rounded text-sm font-semibold whitespace-nowrap ml-4 ${
+                        req.status === 'pending'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : req.status === 'approved'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {req.status === 'pending' ? '⏳ Pending' : req.status === 'approved' ? '✅ Approved' : '❌ Rejected'}
+                      </span>
+                    </div>
+                    {req.responseMessage && (
+                      <div className={`mt-3 p-3 rounded ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                        <p className="text-sm font-semibold">Admin Response:</p>
+                        <p className="text-sm">{req.responseMessage}</p>
+                      </div>
+                    )}
+                    <p className={`text-xs mt-3 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
+                      Requested on {new Date(req.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+  
+          {/* Request New Book */}
+          <div>
+            <h2 className="text-2xl font-bold mb-4">Request a Book</h2>
+  
+            {/* Search */}
+            <div className="mb-6 relative">
+              <FiSearch className={`absolute left-3 top-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+              <input
+                type="text"
+                placeholder="Search books..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className={`w-full pl-10 pr-4 py-2 border rounded-lg ${
+                  isDarkMode
+                    ? 'bg-gray-800 border-gray-700 text-white'
+                    : 'bg-white border-gray-300'
+                }`}
+              />
+            </div>
+  
+            {/* Books Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredBooks.map((book) => {
+                const isRequested = requestedBookIds.includes(book._id);
+                return (
+                  <div
+                    key={book._id}
+                    className={`p-6 rounded-lg shadow ${
+                      isDarkMode ? 'bg-gray-800' : 'bg-white'
+                    }`}
+                  >
+                    <h3 className="text-lg font-bold mb-2">{book.title}</h3>
+                    <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
+                      {book.author}
+                    </p>
+                    <p className={`text-sm mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      Category: {book.category}
+                    </p>
+                    {book.isbn && (
+                      <p className={`text-sm mb-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        ISBN: {book.isbn}
+                      </p>
+                    )}
+  
+                    <div className="mb-4 p-3 rounded bg-opacity-20"
+                      style={{
+                        backgroundColor: book.availableCopies > 0 ? '#10b981' : '#ef4444',
+                      }}
+                    >
+                      <p className="font-semibold">
+                        {book.availableCopies > 0
+                          ? `${book.availableCopies} Copies Available`
+                          : 'Out of Stock'}
+                      </p>
+                    </div>
+  
+                    <button
+                      onClick={() => {
+                        setSelectedBook(book);
+                        setShowModal(true);
+                      }}
+                      disabled={isRequested}
+                      className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded font-semibold ${
+                        isRequested
+                          ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+                          : 'bg-blue-500 hover:bg-blue-600 text-white'
+                      }`}
+                    >
+                      <FiSend size={18} />
+                      {isRequested ? 'Already Requested' : 'Request This Book'}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+  
+            {filteredBooks.length === 0 && (
+              <div className={`p-6 rounded-lg text-center ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                <p>No books found matching your search.</p>
+              </div>
+            )}
+          </div>
+        </div>
+  
+        {/* Request Modal */}
+        {showModal && selectedBook && (
+          <BookRequestModal
+            book={selectedBook}
+            onSubmit={(message) => {
+              handleRequestBook(selectedBook._id, message);
+            }}
+            onClose={() => {
+              setShowModal(false);
+              setSelectedBook(null);
+            }}
+          />
+        )}
+      </div>
+    );
+  };
+  
+  export default BookRequests;
