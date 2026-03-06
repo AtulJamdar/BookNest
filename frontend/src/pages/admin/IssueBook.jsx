@@ -1,9 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useTheme } from '../../hooks/useTheme';
-import axios from 'axios';
-import { FiPlus } from 'react-icons/fi';
+import React, { useState, useEffect, useMemo } from "react";
+import { useTheme } from "../../hooks/useTheme";
+import axios from "axios";
+import { FiPlus, FiBookOpen, FiUsers } from "react-icons/fi";
+import AdminSidebar from "../../components/AdminSidebar";
 
-const API_BASE = 'http://localhost:5000/api';
+// Modern UI Components
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Field, FieldGroup, FieldLabel } from "../../components/ui/field";
+
+const API_BASE = "http://localhost:5000/api";
 
 const IssueBook = () => {
   const { isDarkMode } = useTheme();
@@ -12,15 +18,15 @@ const IssueBook = () => {
   const [books, setBooks] = useState([]);
 
   const [formData, setFormData] = useState({
-    userId: '',
-    bookId: '',
-    dueDate: '',
+    userId: "",
+    bookId: "",
+    dueDate: "",
   });
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -36,7 +42,7 @@ const IssueBook = () => {
       setStudents(studentsRes.data.students || []);
       setBooks(booksRes.data.books || []);
     } catch (err) {
-      setError('Failed to load students or books.');
+      setError("Failed to load students or books.");
     } finally {
       setLoading(false);
     }
@@ -50,33 +56,32 @@ const IssueBook = () => {
   const minDueDate = useMemo(() => {
     const date = new Date();
     date.setDate(date.getDate() + 14);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.userId || !formData.bookId || !formData.dueDate) {
-      setError('All fields are required.');
+      setError("All fields are required.");
       return;
     }
 
     if (formData.dueDate < minDueDate) {
-      setError('Due date must be at least 14 days from today.');
+      setError("Due date must be at least 14 days from today.");
       return;
     }
 
     setSubmitting(true);
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
     try {
       await axios.post(`${API_BASE}/issues/issue-book`, formData);
 
-      setSuccess('Book issued successfully.');
-      setFormData({ userId: '', bookId: '', dueDate: '' });
+      setSuccess("Book issued successfully.");
+      setFormData({ userId: "", bookId: "", dueDate: "" });
 
-      // Optimistic update: reduce available copies locally
       setBooks((prev) =>
         prev.map((b) =>
           b._id === formData.bookId
@@ -85,7 +90,7 @@ const IssueBook = () => {
         )
       );
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to issue book.');
+      setError(err.response?.data?.message || "Failed to issue book.");
     } finally {
       setSubmitting(false);
     }
@@ -98,179 +103,163 @@ const IssueBook = () => {
 
   if (loading) {
     return (
-      <div
-        className={`min-h-screen flex items-center justify-center ${
-          isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-gray-50 text-gray-800'
-        }`}
-      >
-        <p className="text-lg font-medium">Loading data...</p>
+      <div className={`flex min-h-screen ${isDarkMode ? "bg-gray-950 text-indigo-400" : "bg-gray-50 text-indigo-600"}`}>
+        <AdminSidebar />
+        <div className="flex-1 flex flex-col items-center justify-center gap-4">
+          <div className="h-10 w-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+          <p className="font-medium animate-pulse">Syncing Library Records...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div
-      className={`min-h-screen ${
-        isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-900'
-      }`}
-    >
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            Issue Book
-          </h1>
-          <p className="mt-2 text-sm text-gray-500">
-            Assign a book to a student with a valid return date.
-          </p>
-        </div>
+    <div className={`flex min-h-screen ${isDarkMode ? "bg-gray-950 text-gray-100" : "bg-gray-50 text-gray-900"}`}>
+      <AdminSidebar />
 
-        {(error || success) && (
-          <div
-            className={`mb-6 p-4 rounded-2xl border text-sm flex justify-between items-start gap-4 ${
-              error
-                ? 'bg-red-50 border-red-200 text-red-700'
-                : 'bg-green-50 border-green-200 text-green-700'
-            }`}
-          >
-            <span>{error || success}</span>
-            <button
-              onClick={() => {
-                setError('');
-                setSuccess('');
-              }}
-              className="text-xs font-semibold opacity-70 hover:opacity-100"
-            >
-              Close
-            </button>
+      {/* Main Content centered with flex */}
+      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12 overflow-y-auto">
+        <div className="w-full max-w-3xl space-y-10">
+
+          {/* Header */}
+          <div className="text-center">
+            <h1 className="text-3xl font-bold tracking-tight">Issue New Book</h1>
+            <p className={`text-sm mt-2 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+              Assign library resources to students and set return deadlines.
+            </p>
           </div>
-        )}
 
-        <div
-          className={`rounded-2xl shadow-sm border p-8 ${
-            isDarkMode
-              ? 'bg-gray-800 border-gray-700'
-              : 'bg-white border-gray-200'
-          }`}
-        >
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Student */}
-            <div>
-              <label className="block mb-2 text-sm font-semibold">
-                Select Student
-              </label>
-              <select
-                name="userId"
-                value={formData.userId}
-                onChange={handleChange}
-                required
-                className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  isDarkMode
-                    ? 'bg-gray-700 border-gray-600 text-white'
-                    : 'bg-white border-gray-300'
-                }`}
-              >
-                <option value="">Choose a student</option>
-                {students.map((student) => (
-                  <option key={student._id} value={student._id}>
-                    {student.name} ({student.email})
-                  </option>
-                ))}
-              </select>
+          {/* Alerts */}
+          {(error || success) && (
+            <div className={`flex items-center justify-between rounded-xl px-4 py-3 border text-sm animate-in fade-in slide-in-from-top-2 duration-300 ${
+              error ? "bg-red-500/10 border-red-500/20 text-red-500" : "bg-emerald-500/10 border-emerald-500/20 text-emerald-500"
+            }`}>
+              <span className="font-medium">{error || success}</span>
+              <button onClick={() => { setError(""); setSuccess(""); }} className="opacity-70 hover:opacity-100">✕</button>
             </div>
+          )}
 
-            {/* Book */}
-            <div>
-              <label className="block mb-2 text-sm font-semibold">
-                Select Book
-              </label>
-              <select
-                name="bookId"
-                value={formData.bookId}
-                onChange={handleChange}
-                required
-                className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  isDarkMode
-                    ? 'bg-gray-700 border-gray-600 text-white'
-                    : 'bg-white border-gray-300'
-                }`}
-              >
-                <option value="">Choose a book</option>
-                {books.map((book) => (
-                  <option
-                    key={book._id}
-                    value={book._id}
-                    disabled={book.availableCopies === 0}
+          {/* Form Card */}
+          <div className={`rounded-2xl border shadow-xl p-8 lg:p-10 transition-all ${
+            isDarkMode ? "bg-gray-900/50 border-gray-800 backdrop-blur-sm" : "bg-white border-gray-200"
+          }`}>
+            <form onSubmit={handleSubmit}>
+              <FieldGroup className="space-y-6">
+
+                <Field>
+                  <FieldLabel className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Select Student</FieldLabel>
+                  <select
+                    name="userId"
+                    value={formData.userId}
+                    onChange={handleChange}
+                    required
+                    className={`w-full rounded-xl border px-4 py-3 text-sm transition focus:ring-2 focus:ring-indigo-500 outline-none ${
+                      isDarkMode ? "bg-gray-900 border-gray-700 text-gray-100" : "bg-gray-50 border-gray-300"
+                    }`}
                   >
-                    {book.title} — {book.author}{' '}
-                    {book.availableCopies === 0
-                      ? '(Out of stock)'
-                      : `(${book.availableCopies} available)`}
-                  </option>
-                ))}
-              </select>
-            </div>
+                    <option value="">Choose a student</option>
+                    {students.map((student) => (
+                      <option key={student._id} value={student._id}>
+                        {student.name} ({student.email})
+                      </option>
+                    ))}
+                  </select>
+                </Field>
 
-            {/* Due Date */}
-            <div>
-              <label className="block mb-2 text-sm font-semibold">
-                Due Date
-              </label>
-              <input
-                type="date"
-                name="dueDate"
-                value={formData.dueDate}
-                min={minDueDate}
-                onChange={handleChange}
-                required
-                className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  isDarkMode
-                    ? 'bg-gray-700 border-gray-600 text-white'
-                    : 'bg-white border-gray-300'
-                }`}
-              />
-              <p className="mt-2 text-xs text-gray-500">
-                Must be at least 14 days from today.
-              </p>
-            </div>
+                <Field>
+                  <FieldLabel className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Select Book</FieldLabel>
+                  <select
+                    name="bookId"
+                    value={formData.bookId}
+                    onChange={handleChange}
+                    required
+                    className={`w-full rounded-xl border px-4 py-3 text-sm transition focus:ring-2 focus:ring-indigo-500 outline-none ${
+                      isDarkMode ? "bg-gray-900 border-gray-700 text-gray-100" : "bg-gray-50 border-gray-300"
+                    }`}
+                  >
+                    <option value="">Choose a book</option>
+                    {books.map((book) => (
+                      <option key={book._id} value={book._id} disabled={book.availableCopies === 0}>
+                        {book.title} {book.availableCopies === 0 ? "(Out of stock)" : `(${book.availableCopies} available)`}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
 
-            <button
-              type="submit"
-              disabled={submitting}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white text-sm font-semibold transition"
-            >
-              <FiPlus size={18} />
-              {submitting ? 'Issuing...' : 'Issue Book'}
-            </button>
-          </form>
-        </div>
+                <Field>
+                  <FieldLabel className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Due Date</FieldLabel>
+                  <Input
+                    type="date"
+                    name="dueDate"
+                    value={formData.dueDate}
+                    min={minDueDate}
+                    onChange={handleChange}
+                    required
+                    className={isDarkMode ? "bg-gray-900/50 border-gray-700" : "bg-gray-50"}
+                  />
+                  <p className={`text-[11px] mt-1.5 px-1 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
+                    Minimum allowed period is 14 days.
+                  </p>
+                </Field>
 
-        {/* Stats */}
-        <div
-          className={`mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6`}
-        >
-          <div
-            className={`rounded-2xl border p-6 ${
-              isDarkMode
-                ? 'bg-gray-800 border-gray-700'
-                : 'bg-white border-gray-200'
-            }`}
-          >
-            <p className="text-3xl font-bold">{students.length}</p>
-            <p className="text-sm text-gray-500 mt-1">Total Students</p>
+                <Button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-6 rounded-xl shadow-lg shadow-indigo-500/20 transition-all active:scale-95"
+                >
+                  {submitting ? (
+                    <span className="flex items-center gap-2">
+                      <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Processing...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <FiPlus className="h-5 w-5" />
+                      Issue Book
+                    </span>
+                  )}
+                </Button>
+              </FieldGroup>
+            </form>
           </div>
 
-          <div
-            className={`rounded-2xl border p-6 ${
-              isDarkMode
-                ? 'bg-gray-800 border-gray-700'
-                : 'bg-white border-gray-200'
-            }`}
-          >
-            <p className="text-3xl font-bold">{availableBooks.length}</p>
-            <p className="text-sm text-gray-500 mt-1">Books In Stock</p>
+          {/* Stats Section */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className={`rounded-2xl p-6 border transition-all hover:scale-[1.02] ${
+              isDarkMode ? "bg-gray-900/40 border-gray-800" : "bg-white border-gray-200"
+            }`}>
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-lg bg-indigo-500/10 text-indigo-500">
+                  <FiUsers size={24} />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{students.length}</p>
+                  <p className={`text-xs uppercase tracking-wider font-semibold ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
+                    Registered Students
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className={`rounded-2xl p-6 border transition-all hover:scale-[1.02] ${
+              isDarkMode ? "bg-gray-900/40 border-gray-800" : "bg-white border-gray-200"
+            }`}>
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-500">
+                  <FiBookOpen size={24} />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{availableBooks.length}</p>
+                  <p className={`text-xs uppercase tracking-wider font-semibold ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
+                    Books Available
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
+
         </div>
-      </div>
+      </main>
     </div>
   );
 };

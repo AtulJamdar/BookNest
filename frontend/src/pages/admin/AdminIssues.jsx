@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import axios from 'axios';
 import { FiCheck } from 'react-icons/fi';
+import AdminSidebar from '../../components/AdminSidebar';
 
 const AdminIssues = () => {
   const { isDarkMode } = useTheme();
@@ -40,7 +41,6 @@ const AdminIssues = () => {
         `http://localhost:5000/api/issues/return-book/${issueId}`
       );
 
-      // Optimistic UI update instead of full refetch
       setIssues((prev) =>
         prev.map((issue) =>
           issue._id === issueId
@@ -93,167 +93,187 @@ const AdminIssues = () => {
   }
 
   return (
-    <div
-      className={`min-h-screen ${
-        isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <h1 className="text-4xl font-bold mb-10">Manage Issues</h1>
+    <div className="flex min-h-screen">
+      
+      <AdminSidebar />
 
-        {error && (
-          <div className="mb-6 p-4 rounded-2xl border border-red-200 bg-red-50 text-red-700">
-            {error}
-            <button
-              onClick={() => setError('')}
-              className="float-right font-semibold"
-            >
-              ✕
-            </button>
+      <div
+        className={`flex-1 ${
+          isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-10">
+
+          <div className="mb-10">
+            <h1 className="text-3xl font-semibold tracking-tight">
+              Manage Issues
+            </h1>
+            <p className="text-sm text-gray-500 mt-1">
+              Track issued books and manage returns.
+            </p>
           </div>
-        )}
 
-        {success && (
-          <div className="mb-6 p-4 rounded-2xl border border-green-200 bg-green-50 text-green-700">
-            {success}
-            <button
-              onClick={() => setSuccess('')}
-              className="float-right font-semibold"
-            >
-              ✕
-            </button>
-          </div>
-        )}
-
-        {/* Filter Tabs */}
-        <div className="mb-8 flex gap-4">
-          <button
-            onClick={() => setFilter('active')}
-            className={`px-5 py-2 rounded-2xl font-semibold transition-all duration-200 ${
-              filter === 'active'
-                ? 'bg-blue-600 text-white shadow'
-                : isDarkMode
-                ? 'bg-gray-800 border border-gray-700 text-white'
-                : 'bg-white border border-gray-200 text-gray-700'
-            }`}
-          >
-            Active Issues
-          </button>
-
-          <button
-            onClick={() => setFilter('all')}
-            className={`px-5 py-2 rounded-2xl font-semibold transition-all duration-200 ${
-              filter === 'all'
-                ? 'bg-blue-600 text-white shadow'
-                : isDarkMode
-                ? 'bg-gray-800 border border-gray-700 text-white'
-                : 'bg-white border border-gray-200 text-gray-700'
-            }`}
-          >
-            All Issues
-          </button>
-        </div>
-
-        {/* Table */}
-        <div
-          className={`rounded-2xl border overflow-hidden ${
-            isDarkMode
-              ? 'bg-gray-800 border-gray-700'
-              : 'bg-white border-gray-200'
-          }`}
-        >
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead
-                className={`text-left text-sm uppercase tracking-wide ${
-                  isDarkMode
-                    ? 'bg-gray-900 text-gray-400'
-                    : 'bg-gray-50 text-gray-500'
-                }`}
+          {error && (
+            <div className="mb-6 flex items-center justify-between rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-red-700 shadow-sm">
+              <span className="text-sm font-medium">{error}</span>
+              <button
+                onClick={() => setError('')}
+                className="text-sm font-semibold hover:text-red-900 transition-all"
               >
-                <tr>
-                  <th className="px-6 py-4">Student</th>
-                  <th className="px-6 py-4">Email</th>
-                  <th className="px-6 py-4">Book</th>
-                  <th className="px-6 py-4">Issued</th>
-                  <th className="px-6 py-4">Due</th>
-                  <th className="px-6 py-4 text-center">Status</th>
-                  <th className="px-6 py-4 text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {issues.map((issue) => (
-                  <tr
-                    key={issue._id}
-                    className={`border-t transition-colors duration-150 ${
-                      isDarkMode
-                        ? 'border-gray-700 hover:bg-gray-700/50'
-                        : 'border-gray-200 hover:bg-gray-50'
-                    }`}
-                  >
-                    <td className="px-6 py-4 font-semibold">
-                      {issue.userId?.name || 'N/A'}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
-                      {issue.userId?.email || 'N/A'}
-                    </td>
-                    <td className="px-6 py-4">
-                      {issue.bookId?.title || 'N/A'}
-                    </td>
-                    <td className="px-6 py-4 text-sm">
-                      {new Date(issue.issueDate).toLocaleDateString()}
-                    </td>
-                    <td
-                      className={`px-6 py-4 text-sm ${
-                        issue.status === 'issued' &&
-                        isOverdue(issue.dueDate)
-                          ? 'text-red-600 font-semibold'
-                          : ''
-                      }`}
-                    >
-                      {new Date(issue.dueDate).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span
-                        className={`px-3 py-1 text-sm font-semibold rounded-2xl ${getStatusBadge(
-                          issue
-                        )}`}
-                      >
-                        {issue.status === 'returned'
-                          ? 'Returned'
-                          : isOverdue(issue.dueDate)
-                          ? `Overdue (${getDaysOverdue(
-                              issue.dueDate
-                            )} days)`
-                          : 'Issued'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      {issue.status === 'issued' ? (
-                        <button
-                          onClick={() => handleReturnBook(issue._id)}
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition-all duration-200"
-                        >
-                          <FiCheck size={16} />
-                          Return
-                        </button>
-                      ) : (
-                        <span className="text-sm text-gray-400">
-                          Completed
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {issues.length === 0 && (
-            <div className="p-10 text-center text-gray-500">
-              No issues found.
+                ✕
+              </button>
             </div>
           )}
+
+          {success && (
+            <div className="mb-6 flex items-center justify-between rounded-xl border border-green-200 bg-green-50 px-5 py-3 text-green-700 shadow-sm">
+              <span className="text-sm font-medium">{success}</span>
+              <button
+                onClick={() => setSuccess('')}
+                className="text-sm font-semibold hover:text-green-900 transition-all"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
+          {/* Filter Tabs */}
+          <div className="mb-8 flex flex-wrap gap-3">
+            <button
+              onClick={() => setFilter('active')}
+              className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                filter === 'active'
+                  ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
+                  : isDarkMode
+                  ? 'bg-gray-800 border border-gray-700 hover:bg-gray-700'
+                  : 'bg-white border border-gray-200 hover:bg-gray-50'
+              }`}
+            >
+              Active Issues
+            </button>
+
+            <button
+              onClick={() => setFilter('all')}
+              className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                filter === 'all'
+                  ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
+                  : isDarkMode
+                  ? 'bg-gray-800 border border-gray-700 hover:bg-gray-700'
+                  : 'bg-white border border-gray-200 hover:bg-gray-50'
+              }`}
+            >
+              All Issues
+            </button>
+          </div>
+
+          {/* Table Card */}
+          <div
+            className={`rounded-xl shadow-sm border overflow-hidden transition-all ${
+              isDarkMode
+                ? 'bg-gray-800 border-gray-700'
+                : 'bg-white border-gray-200'
+            }`}
+          >
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead
+                  className={`text-xs uppercase tracking-wide ${
+                    isDarkMode
+                      ? 'bg-gray-900 text-gray-400'
+                      : 'bg-gray-50 text-gray-500'
+                  }`}
+                >
+                  <tr>
+                    <th className="px-6 py-4 text-left">Student</th>
+                    <th className="px-6 py-4 text-left">Email</th>
+                    <th className="px-6 py-4 text-left">Book</th>
+                    <th className="px-6 py-4 text-left">Issued</th>
+                    <th className="px-6 py-4 text-left">Due</th>
+                    <th className="px-6 py-4 text-center">Status</th>
+                    <th className="px-6 py-4 text-center">Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {issues.map((issue) => (
+                    <tr
+                      key={issue._id}
+                      className={`border-t transition-all duration-200 ${
+                        isDarkMode
+                          ? 'border-gray-700 hover:bg-gray-700/50'
+                          : 'border-gray-200 hover:bg-gray-50'
+                      }`}
+                    >
+                      <td className="px-6 py-4 font-medium">
+                        {issue.userId?.name || 'N/A'}
+                      </td>
+
+                      <td className="px-6 py-4 text-gray-500">
+                        {issue.userId?.email || 'N/A'}
+                      </td>
+
+                      <td className="px-6 py-4 font-medium">
+                        {issue.bookId?.title || 'N/A'}
+                      </td>
+
+                      <td className="px-6 py-4">
+                        {new Date(issue.issueDate).toLocaleDateString()}
+                      </td>
+
+                      <td
+                        className={`px-6 py-4 ${
+                          issue.status === 'issued' &&
+                          isOverdue(issue.dueDate)
+                            ? 'text-red-600 font-semibold'
+                            : ''
+                        }`}
+                      >
+                        {new Date(issue.dueDate).toLocaleDateString()}
+                      </td>
+
+                      <td className="px-6 py-4 text-center">
+                        <span
+                          className={`px-3 py-1 text-xs font-semibold rounded-full ${getStatusBadge(
+                            issue
+                          )}`}
+                        >
+                          {issue.status === 'returned'
+                            ? 'Returned'
+                            : isOverdue(issue.dueDate)
+                            ? `Overdue (${getDaysOverdue(
+                                issue.dueDate
+                              )} days)`
+                            : 'Issued'}
+                        </span>
+                      </td>
+
+                      <td className="px-6 py-4 text-center">
+                        {issue.status === 'issued' ? (
+                          <button
+                            onClick={() => handleReturnBook(issue._id)}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-sm font-medium transition-all duration-200 hover:shadow-md"
+                          >
+                            <FiCheck size={16} />
+                            Return
+                          </button>
+                        ) : (
+                          <span className="text-sm text-gray-400">
+                            Completed
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {issues.length === 0 && (
+              <div className="p-12 text-center text-sm text-gray-500">
+                No issues found.
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
