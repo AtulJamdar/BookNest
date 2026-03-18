@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
 import { FiSun, FiMoon, FiLogOut, FiMenu, FiX, FiChevronDown } from 'react-icons/fi';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, logout } = useAuth();
   const { isDarkMode, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [adminDropdown, setAdminDropdown] = useState(false);
+
+  const isLanding = !user && location.pathname === '/';
 
   const handleLogout = () => {
     logout();
@@ -22,9 +25,19 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 
-              className="text-2xl font-bold cursor-pointer hover:opacity-80" 
-              onClick={() => user?.role === 'admin' ? navigate('/admin/dashboard') : navigate('/student/dashboard')}
+            <h1
+              className="text-2xl font-bold cursor-pointer hover:opacity-80"
+              onClick={() => {
+                if (!user) {
+                  navigate('/');
+                  return;
+                }
+                if (user.role === 'admin') {
+                  navigate('/admin/dashboard');
+                } else {
+                  navigate('/student/dashboard');
+                }
+              }}
             >
               📚 LibraryMS
             </h1>
@@ -32,6 +45,23 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-6">
+            {isLanding && (
+              <>
+                <a href="#features" className="text-sm hover:text-blue-500">
+                  Home
+                </a>
+                <a href="#about" className="text-sm hover:text-blue-500">
+                  About
+                </a>
+                <a href="#testimonials" className="text-sm hover:text-blue-500">
+                  Testimonials
+                </a>
+                <a href="#contact" className="text-sm hover:text-blue-500">
+                  Contact
+                </a>
+              </>
+            )}
+
             {user && (
               <>
                 <span className="text-sm">Welcome, {user.name}!</span>
@@ -146,6 +176,23 @@ const Navbar = () => {
             </button>
 
             {/* Logout */}
+            {isLanding && (
+              <>
+                <button
+                  onClick={() => navigate('/login')}
+                  className="px-4 py-2 text-sm rounded border border-gray-300 hover:bg-gray-100"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => navigate('/register')}
+                  className="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700"
+                >
+                  Sign Up
+                </button>
+              </>
+            )}
+
             {user && (
               <button
                 onClick={handleLogout}
@@ -179,6 +226,59 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {menuOpen && (
           <div className={`md:hidden pb-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+            {isLanding && (
+              <div className="flex flex-col gap-2 px-4 py-2 text-sm">
+                <button
+                  onClick={() => {
+                    navigate('/');
+                    setMenuOpen(false);
+                  }}
+                  className="text-left py-1"
+                >
+                  Home
+                </button>
+                <a
+                  href="#about"
+                  onClick={() => setMenuOpen(false)}
+                  className="py-1"
+                >
+                  About
+                </a>
+                <a
+                  href="#testimonials"
+                  onClick={() => setMenuOpen(false)}
+                  className="py-1"
+                >
+                  Testimonials
+                </a>
+                <a
+                  href="#contact"
+                  onClick={() => setMenuOpen(false)}
+                  className="py-1"
+                >
+                  Contact
+                </a>
+                <button
+                  onClick={() => {
+                    navigate('/login');
+                    setMenuOpen(false);
+                  }}
+                  className="mt-2 w-full text-left px-2 py-2 rounded bg-blue-600 text-white"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => {
+                    navigate('/register');
+                    setMenuOpen(false);
+                  }}
+                  className="mt-2 w-full text-left px-2 py-2 rounded border border-blue-500 text-blue-500"
+                >
+                  Sign Up
+                </button>
+              </div>
+            )}
+
             {user && (
               <>
                 <p className="px-4 py-2 text-sm font-semibold">{user.name}</p>

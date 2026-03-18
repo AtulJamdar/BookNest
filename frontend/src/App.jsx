@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
-import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import ToastContainer, { useToast } from './components/Toast';
+import LandingPage from './pages/LandingPage';
 
 // Pages
 import Login from './pages/Login';
@@ -32,10 +32,10 @@ function App() {
     <AuthProvider>
       <ThemeProvider>
         <Router>
-          <Navbar />
           <ToastContainer toasts={toasts} removeToast={removeToast} />
           <Routes>
             {/* Public Routes */}
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
@@ -131,8 +131,8 @@ function App() {
               }
             />
 
-            {/* Default Route */}
-            <Route path="/" element={<Navigate to="/login" />} />
+            {/* Fallback Route */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
       </ThemeProvider>
