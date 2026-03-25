@@ -141,7 +141,7 @@ const AdminIssues = () => {
           <div className="mb-8 flex flex-wrap gap-3">
             <button
               onClick={() => setFilter('active')}
-              className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+              className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-0.5 ${
                 filter === 'active'
                   ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
                   : isDarkMode
@@ -154,7 +154,7 @@ const AdminIssues = () => {
 
             <button
               onClick={() => setFilter('all')}
-              className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+              className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-0.5 ${
                 filter === 'all'
                   ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
                   : isDarkMode

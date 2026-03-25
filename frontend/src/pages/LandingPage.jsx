@@ -13,6 +13,7 @@ export default function LandingPage() {
   return (
     <div className="bg-background min-h-screen flex flex-col font-sans">
       <Header />
+
       <main className="flex-1">
         <Hero />
         <Features />
@@ -22,6 +23,7 @@ export default function LandingPage() {
         <CTA />
         <Contact />
       </main>
+
       <Footer />
     </div>
   );

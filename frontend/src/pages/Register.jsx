@@ -94,7 +94,7 @@ const Register = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                placeholder="Atul Sunil Jamdar"
+                placeholder="Enter your full name"
                 className={`w-full transition-all ${
                   isDarkMode 
                     ? 'bg-gray-900/50 border-gray-700 text-white focus:ring-indigo-500' 
@@ -114,7 +114,7 @@ const Register = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                placeholder="atul@endity.in"
+                placeholder="Enter your email address"
                 className={`w-full transition-all ${
                   isDarkMode 
                     ? 'bg-gray-900/50 border-gray-700 text-white focus:ring-indigo-500' 

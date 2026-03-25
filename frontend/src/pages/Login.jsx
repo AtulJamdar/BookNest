@@ -86,7 +86,7 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                placeholder="atulsunil@example.com"
+                placeholder="Enter your email address"
                 className={`w-full transition-all ${
                   isDarkMode 
                     ? 'bg-gray-900/50 border-gray-700 text-white focus:ring-indigo-500 focus:border-indigo-500' 

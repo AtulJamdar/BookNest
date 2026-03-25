@@ -100,7 +100,7 @@ const AdminBooks = () => {
 
           <Button
             onClick={handleAddNew}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20 px-6 py-5 rounded-xl transition-all active:scale-95"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20 px-6 py-5 rounded-xl transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-0.5 active:scale-95"
           >
             <FiPlus className="mr-2 h-5 w-5" />
             Add New Book
@@ -205,14 +205,14 @@ const AdminBooks = () => {
                           <Button
                             onClick={() => handleEdit(book)}
                             variant="outline"
-                            className={`p-2 h-9 w-9 border-indigo-500/20 text-indigo-500 hover:bg-indigo-500 hover:text-white rounded-lg`}
+                            className={`p-2 h-9 w-9 border-indigo-500/20 text-indigo-500 hover:bg-indigo-500 hover:text-white rounded-lg transition-all duration-200 ease-out hover:scale-110 hover:-translate-y-0.5`}
                           >
                             <FiEdit2 size={14} />
                           </Button>
                           <Button
                             onClick={() => handleDelete(book._id)}
                             variant="destructive"
-                            className="p-2 h-9 w-9 bg-rose-600/10 text-rose-500 hover:bg-rose-600 hover:text-white border-none rounded-lg"
+                            className="p-2 h-9 w-9 bg-rose-600/10 text-rose-500 hover:bg-rose-600 hover:text-white border-none rounded-lg transition-all duration-200 ease-out hover:scale-110 hover:-translate-y-0.5"
                           >
                             <FiTrash2 size={14} />
                           </Button>

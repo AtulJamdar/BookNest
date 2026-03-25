@@ -47,7 +47,7 @@ const AdminDashboard = () => {
 
   const StatSquare = ({ icon: Icon, title, value, accent }) => (
     <div
-      className={`h-40 rounded-xl border flex flex-col items-center justify-center text-center transition hover:shadow-lg ${
+      className={`h-40 rounded-xl border flex flex-col items-center justify-center text-center transition-all duration-300 ease-out hover:shadow-lg hover:scale-[1.02] hover:-translate-y-1 cursor-pointer ${
         isDarkMode
           ? "bg-gray-800 border-gray-700"
           : "bg-white border-gray-200"
