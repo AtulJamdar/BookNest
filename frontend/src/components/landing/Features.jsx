@@ -1,134 +1,62 @@
-import React, { useState } from "react";
-import { Layers, Users, BarChart2, Book, Shield, Zap, Globe, Cpu } from "lucide-react";
+import React from "react";
+import { Book, Users, BarChart2, Shield, Zap, Globe } from "lucide-react";
 import Section from "../ui/Section";
 
 const features = [
-  {
-    icon: <Book className="w-12 h-12" />,
-    title: "Smart Inventory Control",
-    desc: "AI-powered cataloging with real-time availability tracking, automated ISBN recognition, and predictive restocking alerts.",
-    color: "text-blue-500",
-    bgColor: "bg-blue-500/10",
-    stats: "99.9% accuracy"
-  },
-  {
-    icon: <Users className="w-12 h-12" />,
-    title: "Advanced Member Portals",
-    desc: "Dedicated dashboards for students, faculty, and staff with personalized recommendations, reading history, and seamless borrowing.",
-    color: "text-green-500",
-    bgColor: "bg-green-500/10",
-    stats: "850K+ users"
-  },
-  {
-    icon: <BarChart2 className="w-12 h-12" />,
-    title: "AI-Powered Analytics",
-    desc: "Predictive insights on book popularity, usage patterns, and collection optimization with real-time reporting and custom dashboards.",
-    color: "text-purple-500",
-    bgColor: "bg-purple-500/10",
-    stats: "4.2M+ data points"
-  },
-  {
-    icon: <Shield className="w-12 h-12" />,
-    title: "Enterprise Security",
-    desc: "Bank-grade encryption, role-based access control, audit trails, and compliance with GDPR, FERPA, and other privacy standards.",
-    color: "text-red-500",
-    bgColor: "bg-red-500/10",
-    stats: "SOC 2 compliant"
-  },
-  {
-    icon: <Zap className="w-12 h-12" />,
-    title: "Lightning Fast Performance",
-    desc: "Sub-second search results, instant checkouts, and 99.9% uptime with global CDN and edge computing for optimal performance.",
-    color: "text-yellow-500",
-    bgColor: "bg-yellow-500/10",
-    stats: "< 100ms response"
-  },
-  {
-    icon: <Globe className="w-12 h-12" />,
-    title: "Cloud-Native Architecture",
-    desc: "Scalable infrastructure that grows with your institution, automatic backups, and seamless integration with existing systems.",
-    color: "text-cyan-500",
-    bgColor: "bg-cyan-500/10",
-    stats: "Global scale"
-  },
+  { icon: <Book className="w-7 h-7" />, title: "Inventory Control", desc: "Track and manage books with real-time availability." },
+  { icon: <Users className="w-7 h-7" />, title: "User Management", desc: "Handle students and staff with ease." },
+  { icon: <BarChart2 className="w-7 h-7" />, title: "Analytics", desc: "Get insights on usage and trends." },
+  { icon: <Shield className="w-7 h-7" />, title: "Security", desc: "Keep your data safe and protected." },
+  { icon: <Zap className="w-7 h-7" />, title: "Performance", desc: "Fast and smooth experience always." },
+  { icon: <Globe className="w-7 h-7" />, title: "Cloud Access", desc: "Access from anywhere anytime." },
 ];
 
 export default function Features() {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-
   return (
-    <Section id="features" className="bg-background">
-      <div className="text-center mb-20">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary font-medium text-sm mb-6">
-          <Cpu className="w-4 h-4" />
-          <span>Powered by Advanced AI</span>
+    <Section id="features" className="bg-background py-32">
+      {/* FULL WIDTH CENTER */}
+      <div className="w-full max-w-7xl mx-auto px-6 flex flex-col items-center">
+        {/* Heading */}
+        <div className="text-center space-y-6 mb-24 max-w-3xl">
+          <h2 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight">
+            Powerful Features
+          </h2>
+          <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
+            Everything you need to manage your library efficiently without complexity.
+          </p>
         </div>
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6">
-          Powerful Capabilities
-        </h2>
-        <p className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-          Built on a robust, secure architecture that handles everything from community libraries to massive university archives with enterprise-grade reliability.
-        </p>
-      </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {features.map((f, i) => (
-          <div
-            key={i}
-            className="group relative bg-card border border-border rounded-[2rem] p-8 hover:bg-card/80 transition-all duration-300 ease-out shadow-md hover:shadow-lg hover:-translate-y-2 hover:scale-[1.01] overflow-hidden cursor-pointer"
-            onMouseEnter={() => setHoveredIndex(i)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            {/* Background Gradient */}
+        {/* GRID CENTERED */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 place-items-center w-full">
+          {features.map((f, i) => (
             <div
-              className={`absolute inset-0 ${f.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-            />
-
-            {/* Content */}
-            <div className="relative z-10">
-              <div
-                className={`mb-6 p-4 ${f.bgColor} rounded-2xl w-fit group-hover:scale-110 transition-transform duration-300`}
-              >
-                <div className={f.color}>
-                  {f.icon}
-                </div>
+              key={i}
+              className="w-full max-w-md flex flex-col items-center text-center gap-5 p-10 border border-border rounded-2xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            >
+              <div className="p-4 bg-primary/10 rounded-xl text-primary">
+                {f.icon}
               </div>
 
-              <h3 className="text-xl md:text-2xl font-bold mb-4 text-foreground group-hover:text-primary transition-colors duration-300">
+              <h3 className="text-xl font-semibold text-foreground">
                 {f.title}
               </h3>
 
-              <p className="text-muted-foreground leading-relaxed mb-6 text-base">
+              <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
                 {f.desc}
               </p>
-
-              {/* Stats Badge */}
-              <div className="inline-flex items-center px-3 py-1 bg-background/50 border border-border/50 rounded-full text-sm font-medium text-foreground group-hover:scale-105 transition-transform duration-300">
-                {f.stats}
-              </div>
             </div>
+          ))}
+        </div>
 
-            {/* Hover Effect */}
-            <div
-              className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary to-accent transition-all duration-300"
-              style={{ width: hoveredIndex === i ? '100%' : '0%' }}
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* Bottom CTA */}
-      <div className="text-center mt-16">
-        <p className="text-muted-foreground mb-6">
-          Ready to transform your library?
-        </p>
-        <a
-          href="/register"
-          className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground rounded-full font-bold hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
-        >
-          Get Started Today
-          <Book className="w-4 h-4" />
-        </a>
+        {/* CTA */}
+        <div className="mt-24">
+          <a
+            href="/register"
+            className="inline-block px-8 py-4 bg-primary text-white rounded-lg font-medium text-lg hover:opacity-90 transition"
+          >
+            Get Started
+          </a>
+        </div>
       </div>
     </Section>
   );

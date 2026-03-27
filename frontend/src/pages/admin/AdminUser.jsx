@@ -142,7 +142,8 @@ const AdminUsers = () => {
             }`}
           >
             <FiSearch
-              className={`absolute left-4 top-3.5 ${
+              size={20}
+              className={`absolute left-3 top-1/2 -translate-y-1/2 ${
                 isDarkMode ? "text-gray-400" : "text-gray-500"
               }`}
             />
@@ -151,7 +152,7 @@ const AdminUsers = () => {
               placeholder="Search by name or email"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full pl-11 pr-4 py-3 rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full pl-10 pr-4 py-3 rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 isDarkMode ? "text-white" : "text-gray-900"
               }`}
             />

@@ -180,7 +180,10 @@ const AdminFines = () => {
 
           {/* Search */}
           <div className="relative">
-            <FiSearch className="absolute left-3 top-3 text-gray-400" />
+            <FiSearch
+              size={20}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
             <input
               type="text"
               placeholder="Search by student name or book title..."

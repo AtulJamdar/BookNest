@@ -127,7 +127,10 @@ const AdminBooks = () => {
         {/* Filters and Actions Bar */}
         <div className="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
           <div className="relative w-full max-w-md">
-            <FiSearch className={`absolute left-3.5 top-1/2 -translate-y-1/2 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
+            <FiSearch
+              size={20}
+              className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}
+            />
             <Input
               type="text"
               placeholder="Search by title or author..."
