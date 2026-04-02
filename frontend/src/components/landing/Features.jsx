@@ -1,37 +1,63 @@
 import React from "react";
-import { BookOpen, Users, BarChart3, Search, Bell, Shield } from "lucide-react";
+import { Book, Users, BarChart2, Shield, Zap, Globe } from "lucide-react";
+import Section from "../ui/Section";
 
 const features = [
-  { icon: BookOpen, title: "Book Catalog", desc: "Organize your collection with smart categorization and ISBN lookup." },
-  { icon: Users, title: "Member Management", desc: "Register members, track borrowing history, and manage memberships." },
-  { icon: BarChart3, title: "Analytics Dashboard", desc: "Gain insights into circulation trends and library performance metrics." },
-  { icon: Search, title: "Smart Search", desc: "Find any book instantly with powerful filters by genre or availability." },
-  { icon: Bell, title: "Automated Alerts", desc: "Send overdue reminders and reservation notifications automatically." },
-  { icon: Shield, title: "Secure Access", desc: "Role-based permissions with complete audit trails for all actions." },
+  { icon: <Book className="w-7 h-7" />, title: "Inventory Control", desc: "Track and manage books with real-time availability." },
+  { icon: <Users className="w-7 h-7" />, title: "User Management", desc: "Handle students and staff with ease." },
+  { icon: <BarChart2 className="w-7 h-7" />, title: "Analytics", desc: "Get insights on usage and trends." },
+  { icon: <Shield className="w-7 h-7" />, title: "Security", desc: "Keep your data safe and protected." },
+  { icon: <Zap className="w-7 h-7" />, title: "Performance", desc: "Fast and smooth experience always." },
+  { icon: <Globe className="w-7 h-7" />, title: "Cloud Access", desc: "Access from anywhere anytime." },
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="py-32 px-6 bg-background">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center max-w-2xl mx-auto mb-20">
-          <span className="text-xs font-bold text-accent uppercase tracking-[0.3em]">Capabilities</span>
-          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-foreground font-serif">Everything You Need</h2>
-          <p className="mt-4 text-muted-foreground text-lg">LibraFlow handles the complexity so you can focus on your readers.</p>
+    <Section id="features" className="bg-background py-32">
+      {/* FULL WIDTH CENTER */}
+      <div className="w-full max-w-7xl mx-auto px-6 flex flex-col items-center">
+        {/* Heading */}
+        <div className="text-center space-y-6 mb-24 max-w-3xl">
+          <h2 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight">
+            Powerful Features
+          </h2>
+          <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
+            Everything you need to manage your library efficiently without complexity.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* GRID CENTERED */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 place-items-center w-full">
           {features.map((f, i) => (
-            <div key={i} className="group p-10 rounded-[2.5rem] bg-card border border-border/50 hover:border-accent/40 transition-all duration-500 hover:-translate-y-2">
-              <div className="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center mb-6 group-hover:bg-accent/10 transition-colors">
-                <f.icon className="w-7 h-7 text-primary group-hover:text-accent transition-colors" />
+            <div
+              key={i}
+              className="w-full max-w-md flex flex-col items-center text-center gap-5 p-10 border border-border rounded-2xl transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            >
+              <div className="p-4 bg-primary/10 rounded-xl text-primary">
+                {f.icon}
               </div>
-              <h3 className="text-xl font-bold text-foreground font-serif mb-3">{f.title}</h3>
-              <p className="text-muted-foreground leading-relaxed text-sm">{f.desc}</p>
+
+              <h3 className="text-xl font-semibold text-foreground">
+                {f.title}
+              </h3>
+
+              <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
+                {f.desc}
+              </p>
             </div>
           ))}
         </div>
+
+        {/* CTA */}
+        <div className="mt-24">
+          <a
+            href="/register"
+            className="inline-block px-8 py-4 bg-primary text-white rounded-lg font-medium text-lg hover:opacity-90 transition"
+          >
+            Get Started
+          </a>
+        </div>
       </div>
-    </section>
+    </Section>
   );
 }
