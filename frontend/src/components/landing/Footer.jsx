@@ -90,100 +90,62 @@
 // }
 
 import React from "react";
-import { BookMarked, Twitter, Linkedin, Github } from "lucide-react";
+import { BookOpen, Twitter, Linkedin, Github } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const footerLinks = {
+  Product: ["Features", "Pricing", "Integrations", "Changelog"],
+  Resources: ["Documentation", "API Reference", "Blog", "Community"],
+  Company: ["About", "Careers", "Contact", "Privacy Policy"],
+};
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const sections = [
-    { title: "Product", links: ["Features", "Pricing", "Security"] },
-    { title: "Company", links: ["About", "Careers", "Contact"] },
-    { title: "Resources", links: ["Docs", "Help", "Guides"] },
-  ];
-
   return (
-    <footer
-      className="relative py-24 overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(180deg, #0c1a2e 0%, #0f172a 60%, #080f1e 100%)",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
-      }}
-    >
-      {/* Subtle gradient accent at top */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent, rgba(245,158,11,0.4), transparent)",
-        }}
-      />
-
-      <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-64 pointer-events-none opacity-10"
-        style={{
-          background: "radial-gradient(ellipse, rgba(245,158,11,0.5), transparent 70%)",
-        }}
-      />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center">
-        {/* TOP */}
-        <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-          {/* Brand */}
-          <div className="space-y-5 max-w-sm">
-            <div className="flex items-center gap-3">
-              <div
-                className="p-2 rounded-lg"
-                style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)" }}
-              >
-                <BookMarked className="w-5 h-5 text-white" />
+    <footer className="bg-foreground text-primary-foreground py-20 px-6 border-t border-primary-foreground/5">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-4 gap-12 md:gap-10">
+          
+          {/* Brand & Description */}
+          <div className="flex flex-col gap-5">
+            <Link to="/" className="flex items-center gap-2.5 font-serif text-xl font-bold">
+              <div className="w-9 h-9 rounded-lg bg-accent flex items-center justify-center shadow-lg shadow-accent/20">
+                <BookOpen className="w-5 h-5 text-accent-foreground" />
               </div>
-              <span className="font-bold text-lg text-white">
-                Library<span style={{ color: "#f59e0b" }}>SaaS</span>
-              </span>
-            </div>
-
-            <p className="text-sm text-white/40 leading-relaxed">
-              Modern library management system designed for simplicity, speed, and reliability.
+              LibraFlow
+            </Link>
+            
+            <p className="text-sm text-primary-foreground/50 leading-relaxed max-w-xs">
+              Modern library management for institutions of all sizes. Designed for simplicity, speed, and reliability.
             </p>
 
+            {/* Social Links - Styled to match the new dark theme */}
             <div className="flex gap-3">
               {[Twitter, Linkedin, Github].map((Icon, i) => (
-                <div
+                <a
                   key={i}
-                  className="p-2 rounded-md transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
-                  style={{
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    color: "rgba(255,255,255,0.5)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = "#f59e0b";
-                    e.currentTarget.style.borderColor = "rgba(245,158,11,0.3)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = "rgba(255,255,255,0.5)";
-                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-                  }}
+                  href="#"
+                  className="p-2 border border-primary-foreground/10 rounded-lg hover:bg-primary-foreground/5 hover:border-primary-foreground/20 transition-all"
                 >
-                  <Icon className="w-4 h-4" />
-                </div>
+                  <Icon className="w-4 h-4 text-primary-foreground/60" />
+                </a>
               ))}
             </div>
           </div>
 
-          {/* Links */}
-          {sections.map((section, i) => (
-            <div key={i} className="space-y-4 text-center md:text-left">
-              <h4 className="font-semibold text-white/80 text-sm uppercase tracking-wider">
-                {section.title}
+          {/* Dynamic Link Sections */}
+          {Object.entries(footerLinks).map(([category, links]) => (
+            <div key={category}>
+              <h4 className="font-semibold text-sm mb-5 uppercase tracking-wider text-primary-foreground/80">
+                {category}
               </h4>
               <ul className="space-y-3">
-                {section.links.map((link, j) => (
-                  <li key={j}>
-                    <a
-                      href="#"
-                      className="text-sm text-white/40 transition-colors duration-200 hover:text-amber-400"
+                {links.map((link) => (
+                  <li key={link}>
+                    <a 
+                      href="#" 
+                      className="text-sm text-primary-foreground/50 hover:text-accent transition-colors duration-200"
                     >
                       {link}
                     </a>
@@ -194,16 +156,19 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* BOTTOM */}
-        <div
-          className="w-full pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/30"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
-        >
-          <p>© {currentYear} Library SaaS · All rights reserved</p>
-
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-amber-400 transition-colors duration-200">Privacy</a>
-            <a href="#" className="hover:text-amber-400 transition-colors duration-200">Terms</a>
+        {/* Bottom Section */}
+        <div className="mt-16 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-primary-foreground/30">
+            © {currentYear} LibraFlow. All rights reserved.
+          </p>
+          
+          <div className="flex gap-8">
+            <a href="#" className="text-xs text-primary-foreground/30 hover:text-primary-foreground transition-colors">
+              Cookie Policy
+            </a>
+            <a href="#" className="text-xs text-primary-foreground/30 hover:text-primary-foreground transition-colors">
+              Status
+            </a>
           </div>
         </div>
       </div>
