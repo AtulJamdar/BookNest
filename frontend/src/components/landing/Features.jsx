@@ -1,69 +1,37 @@
 import React from "react";
-import { Book, Users, BarChart2, Shield, Zap, Globe, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import Section from "../ui/Section";
+import { BookOpen, Users, BarChart3, Search, Bell, Shield } from "lucide-react";
 
 const features = [
-  { icon: <Book className="w-7 h-7" />, title: "Inventory Control", desc: "Track and manage books with real-time availability." },
-  { icon: <Users className="w-7 h-7" />, title: "User Management", desc: "Handle students and staff with ease." },
-  { icon: <BarChart2 className="w-7 h-7" />, title: "Analytics", desc: "Get insights on usage and trends." },
-  { icon: <Shield className="w-7 h-7" />, title: "Security", desc: "Keep your data safe and protected." },
-  { icon: <Zap className="w-7 h-7" />, title: "Performance", desc: "Fast and smooth experience always." },
-  { icon: <Globe className="w-7 h-7" />, title: "Cloud Access", desc: "Access from anywhere anytime." },
+  { icon: BookOpen, title: "Book Catalog", desc: "Organize your collection with smart categorization and ISBN lookup." },
+  { icon: Users, title: "Member Management", desc: "Register members, track borrowing history, and manage memberships." },
+  { icon: BarChart3, title: "Analytics Dashboard", desc: "Gain insights into circulation trends and library performance metrics." },
+  { icon: Search, title: "Smart Search", desc: "Find any book instantly with powerful filters by genre or availability." },
+  { icon: Bell, title: "Automated Alerts", desc: "Send overdue reminders and reservation notifications automatically." },
+  { icon: Shield, title: "Secure Access", desc: "Role-based permissions with complete audit trails for all actions." },
 ];
 
 export default function Features() {
   return (
-    <Section id="features" className="bg-background py-24 relative overflow-hidden">
-      {/* Decorative background blurs to match CTA style */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl -z-10" />
-
-      <div className="w-full max-w-7xl mx-auto px-6 flex flex-col items-center">
-        
-        {/* Heading Section */}
-        <div className="text-center space-y-4 mb-20 max-w-3xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground font-serif tracking-tight">
-            Powerful Features
-          </h2>
-          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
-            Everything you need to manage your library efficiently without complexity.
-          </p>
+    <section id="features" className="py-32 px-6 bg-background">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center max-w-2xl mx-auto mb-20">
+          <span className="text-xs font-bold text-accent uppercase tracking-[0.3em]">Capabilities</span>
+          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-foreground font-serif">Everything You Need</h2>
+          <p className="mt-4 text-muted-foreground text-lg">LibraFlow handles the complexity so you can focus on your readers.</p>
         </div>
 
-        {/* Feature Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+        <div className="grid md:grid-cols-3 gap-8">
           {features.map((f, i) => (
-            <div
-              key={i}
-              className="group w-full flex flex-col items-center text-center gap-5 p-10 bg-card/50 border border-border/50 rounded-3xl transition-all duration-300 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2"
-            >
-              <div className="p-4 bg-primary rounded-2xl text-primary-foreground shadow-lg group-hover:scale-110 transition-transform">
-                {f.icon}
+            <div key={i} className="group p-10 rounded-[2.5rem] bg-card border border-border/50 hover:border-accent/40 transition-all duration-500 hover:-translate-y-2">
+              <div className="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center mb-6 group-hover:bg-accent/10 transition-colors">
+                <f.icon className="w-7 h-7 text-primary group-hover:text-accent transition-colors" />
               </div>
-
-              <h3 className="text-xl font-bold text-foreground font-serif">
-                {f.title}
-              </h3>
-
-              <p className="text-base text-muted-foreground leading-relaxed">
-                {f.desc}
-              </p>
+              <h3 className="text-xl font-bold text-foreground font-serif mb-3">{f.title}</h3>
+              <p className="text-muted-foreground leading-relaxed text-sm">{f.desc}</p>
             </div>
           ))}
         </div>
-
-        {/* Action Button - Styled like CTASection */}
-        <div className="mt-20">
-          <Link
-            to="/register"
-            className="inline-flex items-center gap-2 px-10 py-4 bg-accent text-accent-foreground rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all group"
-          >
-            Get Started Now
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
       </div>
-    </Section>
+    </section>
   );
 }
