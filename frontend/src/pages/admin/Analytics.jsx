@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import axios from "axios";
 import AdminSidebar from "../../components/AdminSidebar";
+import DashboardMain from "../../components/layout/DashboardMain";
 
 import {
   BarChart,
@@ -93,21 +94,24 @@ const Analytics = () => {
   };
 
   const COLORS = [
-    "#3B82F6",
-    "#10B981",
-    "#F59E0B",
-    "#EF4444",
+    "#4F46E5",
+    "#6366F1",
+    "#7C3AED",
     "#8B5CF6",
-    "#EC4899",
+    "#A78BFA",
+    "#C4B5FD",
   ];
 
   if (loading) {
     return (
-      <div className={`flex min-h-screen ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"}`}>
-        <AdminSidebar />
-
-        <div className="flex flex-1 items-center justify-center">
-          <p className="text-lg font-semibold">Loading analytics...</p>
+      <div
+        className={`min-h-screen flex items-center justify-center ${
+          isDarkMode ? "bg-gray-950 text-indigo-400" : "bg-gray-50 text-indigo-600"
+        }`}
+      >
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-10 w-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+          <p className="font-medium animate-pulse">Loading analytics...</p>
         </div>
       </div>
     );
@@ -119,26 +123,23 @@ const Analytics = () => {
       {/* Sidebar */}
       <AdminSidebar />
 
-      {/* Main Content */}
-      <div className="flex-1 px-10 py-8">
-
-        <div className="max-w-7xl mx-auto">
-
-          <h1 className="text-4xl font-bold mb-10">
-            📊 Analytics Dashboard
-          </h1>
-
+      <DashboardMain
+        isDarkMode={isDarkMode}
+        heroTitle="Analytics"
+        heroSubtitle="Category mix, membership split, and issue volume over time."
+      >
+        <div className="space-y-8">
           {/* Top Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
 
             {/* Books Category */}
             <div
-              className={`p-6 rounded-xl shadow-md ${
-                isDarkMode ? "bg-gray-800" : "bg-white"
+              className={`p-6 rounded-xl border shadow-sm ${
+                isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
               }`}
             >
-              <h2 className="text-xl font-semibold mb-6">
-                Books by Category
+              <h2 className="text-xl font-semibold mb-6 tracking-tight">
+                Books by category
               </h2>
 
               <ResponsiveContainer width="100%" height={320}>
@@ -165,12 +166,12 @@ const Analytics = () => {
 
             {/* User Distribution */}
             <div
-              className={`p-6 rounded-xl shadow-md ${
-                isDarkMode ? "bg-gray-800" : "bg-white"
+              className={`p-6 rounded-xl border shadow-sm ${
+                isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
               }`}
             >
-              <h2 className="text-xl font-semibold mb-6">
-                User Distribution
+              <h2 className="text-xl font-semibold mb-6 tracking-tight">
+                User distribution
               </h2>
 
               <ResponsiveContainer width="100%" height={320}>
@@ -187,7 +188,7 @@ const Analytics = () => {
                       border: `1px solid ${isDarkMode ? "#555" : "#ccc"}`,
                     }}
                   />
-                  <Bar dataKey="value" fill="#3B82F6" />
+                  <Bar dataKey="value" fill="#4F46E5" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -195,12 +196,12 @@ const Analytics = () => {
 
           {/* Issues Trend */}
           <div
-            className={`p-6 rounded-xl shadow-md ${
-              isDarkMode ? "bg-gray-800" : "bg-white"
+            className={`p-6 rounded-xl border shadow-sm ${
+              isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
             }`}
           >
-            <h2 className="text-xl font-semibold mb-6">
-              Issues Trend
+            <h2 className="text-xl font-semibold mb-6 tracking-tight">
+              Issues trend
             </h2>
 
             <ResponsiveContainer width="100%" height={350}>
@@ -221,7 +222,7 @@ const Analytics = () => {
                 <Line
                   type="monotone"
                   dataKey="issues"
-                  stroke="#10B981"
+                  stroke="#6366F1"
                   strokeWidth={3}
                   activeDot={{ r: 8 }}
                 />
@@ -230,7 +231,7 @@ const Analytics = () => {
           </div>
 
         </div>
-      </div>
+      </DashboardMain>
     </div>
   );
 };

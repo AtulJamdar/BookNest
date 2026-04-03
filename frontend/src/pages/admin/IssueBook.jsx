@@ -3,6 +3,7 @@ import { useTheme } from "../../hooks/useTheme";
 import axios from "axios";
 import { FiPlus, FiBookOpen, FiUsers } from "react-icons/fi";
 import AdminSidebar from "../../components/AdminSidebar";
+import DashboardMain from "../../components/layout/DashboardMain";
 
 // Modern UI Components
 import { Button } from "../../components/ui/button";
@@ -117,17 +118,12 @@ const IssueBook = () => {
     <div className={`flex min-h-screen ${isDarkMode ? "bg-gray-950 text-gray-100" : "bg-gray-50 text-gray-900"}`}>
       <AdminSidebar />
 
-      {/* Main Content centered with flex */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12 overflow-y-auto">
-        <div className="w-full max-w-3xl space-y-10">
-
-          {/* Header */}
-          <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight">Issue New Book</h1>
-            <p className={`text-sm mt-2 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
-              Assign library resources to students and set return deadlines.
-            </p>
-          </div>
+      <DashboardMain
+        isDarkMode={isDarkMode}
+        heroTitle="Issue a book"
+        heroSubtitle="Assign library resources to students and set return deadlines."
+      >
+        <div className="w-full max-w-3xl mx-auto space-y-10 pb-4">
 
           {/* Alerts */}
           {(error || success) && (
@@ -259,7 +255,7 @@ const IssueBook = () => {
           </div>
 
         </div>
-      </main>
+      </DashboardMain>
     </div>
   );
 };

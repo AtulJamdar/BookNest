@@ -5,6 +5,7 @@ import axios from 'axios';
 import { FiSearch, FiSend } from 'react-icons/fi';
 import BookRequestModal from '../../components/BookRequests';
 import StudentSidebar from '../../components/StudentSidebar';
+import DashboardMain from '../../components/layout/DashboardMain';
 
 const BookRequests = () => {
   const { isDarkMode } = useTheme();
@@ -74,8 +75,11 @@ const BookRequests = () => {
     return (
       <div className={`flex min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50'}`}>
         <StudentSidebar />
-        <div className="flex flex-1 items-center justify-center">
-          <p>Loading...</p>
+        <div className={`flex flex-1 items-center justify-center ${isDarkMode ? 'text-indigo-400' : 'text-indigo-600'}`}>
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-10 w-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+            <p className="font-medium animate-pulse">Loading...</p>
+          </div>
         </div>
       </div>
     );
@@ -88,13 +92,12 @@ const BookRequests = () => {
       {/* Sidebar */}
       <StudentSidebar />
 
-      {/* Page Content */}
-      <div className="flex-1 px-10 py-8">
-
-        <div className="max-w-7xl mx-auto">
-
-          <h1 className="text-4xl font-bold mb-8">📝 Book Requests</h1>
-
+      <DashboardMain
+        isDarkMode={isDarkMode}
+        heroTitle="Book requests"
+        heroSubtitle="Track your holds and request new titles from the catalog."
+      >
+        <div className="space-y-8">
           {error && (
             <div className="mb-4 p-4 bg-red-100 text-red-700 rounded">
               {error}
@@ -113,11 +116,11 @@ const BookRequests = () => {
 
           <div className="mb-10">
 
-            <h2 className="text-2xl font-bold mb-4">My Requests</h2>
+            <h2 className="text-xl font-bold mb-4 tracking-tight">My requests</h2>
 
             {requests.length === 0 ? (
 
-              <div className={`p-6 rounded-lg text-center ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+              <div className={`p-6 rounded-xl border text-center shadow-sm ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
                 <p>No requests yet.</p>
               </div>
 
@@ -129,7 +132,7 @@ const BookRequests = () => {
 
                   <div
                     key={req._id}
-                    className={`p-6 rounded-lg shadow ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}
+                    className={`p-6 rounded-xl border shadow-sm ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}
                   >
 
                     <div className="flex justify-between">
@@ -204,7 +207,7 @@ const BookRequests = () => {
               placeholder="Search books..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg ${
+              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                 isDarkMode
                   ? 'bg-gray-800 border-gray-700 text-white'
                   : 'bg-white border-gray-300'
@@ -225,7 +228,7 @@ const BookRequests = () => {
 
                 <div
                   key={book._id}
-                  className={`p-6 rounded-lg shadow ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}
+                  className={`p-6 rounded-xl border shadow-sm ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}
                 >
 
                   <h3 className="text-lg font-bold mb-2">{book.title}</h3>
@@ -244,10 +247,10 @@ const BookRequests = () => {
                       setShowModal(true);
                     }}
                     disabled={isRequested}
-                    className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded font-semibold ${
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-colors ${
                       isRequested
                         ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
-                        : 'bg-blue-500 hover:bg-blue-600 text-white'
+                        : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm'
                     }`}
                   >
                     <FiSend size={18} />
@@ -263,8 +266,7 @@ const BookRequests = () => {
           </div>
 
         </div>
-
-      </div>
+      </DashboardMain>
 
       {/* Modal */}
 

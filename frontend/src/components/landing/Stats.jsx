@@ -7,22 +7,31 @@ const stats = [
   { value: "98%", label: "Teams happy with onboarding" },
 ];
 
-export default function Stats() {
+export default function StatsFullPage() {
   return (
-    <section id="stats" className="w-full border-y border-stone-200 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-4">
+    <section className="min-h-screen w-full flex items-center justify-center bg-white px-4 py-16">
+      <div className="w-full max-w-6xl">
+        {/* Heading */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#1e3a5f] mb-4">
+            Trusted by Libraries Across India
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Numbers that reflect reliability, scale, and trust.
+          </p>
+        </div>
+
+        {/* Stats */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 text-center">
           {stats.map((s, i) => (
             <div
               key={i}
-              className={`text-center lg:text-left ${
-                i > 0 ? "lg:border-l lg:border-stone-200 lg:pl-8" : ""
-              }`}
+              className="flex flex-col items-center justify-center p-6 rounded-2xl border border-stone-200 shadow-sm hover:shadow-md transition"
             >
-              <div className="text-[1.75rem] sm:text-[2rem] font-bold tabular-nums tracking-tight text-[#0f766e]">
+              <div className="text-3xl sm:text-4xl font-bold text-[#0f766e] mb-2">
                 {s.value}
               </div>
-              <p className="mt-1.5 text-[0.8125rem] sm:text-[0.875rem] font-medium text-stone-600 leading-snug">
+              <p className="text-sm font-medium text-stone-600">
                 {s.label}
               </p>
             </div>

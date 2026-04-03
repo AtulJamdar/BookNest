@@ -4,6 +4,7 @@ import axios from "axios";
 import { FiTrash2, FiEye, FiSearch } from "react-icons/fi";
 import UserDetailsModal from "../../components/UserDetailsModal";
 import AdminSidebar from "../../components/AdminSidebar";
+import DashboardMain from "../../components/layout/DashboardMain";
 
 const AdminUsers = () => {
   const { isDarkMode } = useTheme();
@@ -82,20 +83,12 @@ const AdminUsers = () => {
     >
       <AdminSidebar />
 
-      <main className="flex-1 p-6 lg:p-10">
-        <div className="max-w-7xl mx-auto space-y-8">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-semibold tracking-tight">
-                Manage Users
-              </h1>
-              <p className="text-sm opacity-70 mt-1">
-                View and manage registered users in the system
-              </p>
-            </div>
-          </div>
-
+      <DashboardMain
+        isDarkMode={isDarkMode}
+        heroTitle="Manage users"
+        heroSubtitle="View and manage registered patrons and staff in one place."
+      >
+        <div className="space-y-8">
           {/* Alerts */}
           {error && (
             <div
@@ -152,7 +145,7 @@ const AdminUsers = () => {
               placeholder="Search by name or email"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full pl-10 pr-4 py-3 rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full pl-10 pr-4 py-3 rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                 isDarkMode ? "text-white" : "text-gray-900"
               }`}
             />
@@ -264,7 +257,7 @@ const AdminUsers = () => {
             )}
           </div>
         </div>
-      </main>
+      </DashboardMain>
 
       {showModal && selectedUser && (
         <UserDetailsModal

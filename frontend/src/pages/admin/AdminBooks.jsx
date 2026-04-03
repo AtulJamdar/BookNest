@@ -4,6 +4,7 @@ import axios from "axios";
 import { FiEdit2, FiTrash2, FiPlus, FiSearch } from "react-icons/fi";
 import BookModal from "../../components/BookModal";
 import AdminSidebar from "../../components/AdminSidebar";
+import DashboardMain from "../../components/layout/DashboardMain";
 
 // Modern UI Components
 import { Button } from "../../components/ui/button";
@@ -86,24 +87,18 @@ const AdminBooks = () => {
       {/* Sidebar */}
       <AdminSidebar />
 
-      {/* Main Content */}
-      <main className="flex-1 p-4 lg:p-8 transition-all">
-        
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Books Management</h1>
-            <p className={`text-sm mt-1 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
-              Manage your library catalog, update availability, and add new titles.
-            </p>
-          </div>
-
+      <DashboardMain
+        isDarkMode={isDarkMode}
+        heroTitle="Books management"
+        heroSubtitle="Manage your catalog, availability, and new titles from one centered workspace."
+      >
+        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-end gap-4 mb-8">
           <Button
             onClick={handleAddNew}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20 px-6 py-5 rounded-xl transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-0.5 active:scale-95"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25 px-6 py-3 rounded-xl font-semibold transition-all"
           >
             <FiPlus className="mr-2 h-5 w-5" />
-            Add New Book
+            Add new book
           </Button>
         </div>
 
@@ -228,7 +223,7 @@ const AdminBooks = () => {
             </table>
           </div>
         </div>
-      </main>
+      </DashboardMain>
 
       {/* Modal */}
       {showModal && (

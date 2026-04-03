@@ -1,6 +1,5 @@
 import React from "react";
 import { Book, Users, BarChart2, Shield, Zap, Globe } from "lucide-react";
-import Section from "../ui/Section";
 
 const features = [
   {
@@ -35,52 +34,61 @@ const features = [
   },
 ];
 
-export default function Features() {
+export default function FeaturesFullPage() {
   return (
-    <Section id="features" className="!py-16 md:!py-24 bg-[#f7f5f2]">
-      <div className="text-center max-w-2xl mx-auto mb-14 md:mb-16 px-2">
-        <p className="text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-[#0f766e] mb-3">
-          Product
-        </p>
-        <h2 className="text-[1.875rem] sm:text-[2.25rem] font-bold text-[#1e3a5f] tracking-tight leading-tight mb-4">
-          Everything your library runs on—delivered clearly
-        </h2>
-        <p className="text-stone-600 text-[1.0625rem] leading-relaxed">
-          A complete operations layer—from acquisition to returns—designed for
-          schools, colleges, and public libraries that need reliability first.
-        </p>
-      </div>
+    <section className="min-h-screen w-full flex items-center justify-center bg-[#f7f5f2] px-4 py-16">
+      <div className="w-full max-w-6xl">
+        {/* Heading */}
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#0f766e] mb-3">
+            Product
+          </p>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-        {features.map((f, i) => {
-          const Icon = f.icon;
-          return (
-            <article
-              key={i}
-              className="rounded-2xl border border-stone-200/90 bg-white p-7 shadow-sm shadow-stone-900/5 hover:shadow-md hover:border-[#0f766e]/25 transition-all duration-300"
-            >
-              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#ecfdf5] to-[#e0f2fe] text-[#0f766e]">
-                <Icon className="w-5 h-5" strokeWidth={2} />
-              </div>
-              <h3 className="text-[1.0625rem] font-semibold text-[#1e3a5f] tracking-tight mb-2">
-                {f.title}
-              </h3>
-              <p className="text-[0.9375rem] leading-relaxed text-stone-600">
-                {f.desc}
-              </p>
-            </article>
-          );
-        })}
-      </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#1e3a5f] leading-tight mb-4">
+            Everything your library runs on—delivered clearly
+          </h2>
 
-      <div className="mt-14 text-center">
-        <a
-          href="/register"
-          className="inline-flex items-center justify-center rounded-xl bg-[#1e3a5f] px-8 py-3.5 text-[0.9375rem] font-semibold text-white hover:bg-[#2d4a73] transition-colors shadow-md shadow-[#1e3a5f]/20"
-        >
-          Explore BookNest
-        </a>
+          <p className="text-stone-600 text-lg leading-relaxed">
+            A complete operations layer—from acquisition to returns—designed for
+            schools, colleges, and public libraries that need reliability first.
+          </p>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((f, i) => {
+            const Icon = f.icon;
+            return (
+              <article
+                key={i}
+                className="rounded-2xl border border-stone-200 bg-white p-7 shadow-sm hover:shadow-md hover:border-[#0f766e]/30 transition-all duration-300 text-center"
+              >
+                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#ecfdf5] to-[#e0f2fe] text-[#0f766e] mx-auto">
+                  <Icon className="w-5 h-5" strokeWidth={2} />
+                </div>
+
+                <h3 className="text-lg font-semibold text-[#1e3a5f] mb-2">
+                  {f.title}
+                </h3>
+
+                <p className="text-sm leading-relaxed text-stone-600">
+                  {f.desc}
+                </p>
+              </article>
+            );
+          })}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-14 text-center">
+          <a
+            href="/register"
+            className="inline-flex items-center justify-center rounded-xl bg-[#1e3a5f] px-8 py-4 text-base font-semibold text-white hover:bg-[#2d4a73] transition-colors shadow-md"
+          >
+            Explore BookNest
+          </a>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

@@ -3,6 +3,7 @@ import { useTheme } from '../../hooks/useTheme';
 import axios from 'axios';
 import { FiCheck } from 'react-icons/fi';
 import AdminSidebar from '../../components/AdminSidebar';
+import DashboardMain from '../../components/layout/DashboardMain';
 
 const AdminIssues = () => {
   const { isDarkMode } = useTheme();
@@ -84,10 +85,13 @@ const AdminIssues = () => {
     return (
       <div
         className={`min-h-screen flex items-center justify-center ${
-          isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
+          isDarkMode ? 'bg-gray-950 text-indigo-400' : 'bg-gray-50 text-indigo-600'
         }`}
       >
-        <p className="text-lg font-medium">Loading issues...</p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-10 w-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+          <p className="font-medium animate-pulse">Loading issues...</p>
+        </div>
       </div>
     );
   }
@@ -97,22 +101,12 @@ const AdminIssues = () => {
       
       <AdminSidebar />
 
-      <div
-        className={`flex-1 ${
-          isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
-        }`}
+      <DashboardMain
+        isDarkMode={isDarkMode}
+        heroTitle="Manage issues"
+        heroSubtitle="Track active loans, returns, and overdue copies in one place."
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-10">
-
-          <div className="mb-10">
-            <h1 className="text-3xl font-semibold tracking-tight">
-              Manage Issues
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Track issued books and manage returns.
-            </p>
-          </div>
-
+        <div className="space-y-8">
           {error && (
             <div className="mb-6 flex items-center justify-between rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-red-700 shadow-sm">
               <span className="text-sm font-medium">{error}</span>
@@ -143,7 +137,7 @@ const AdminIssues = () => {
               onClick={() => setFilter('active')}
               className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-0.5 ${
                 filter === 'active'
-                  ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
+                  ? 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-700'
                   : isDarkMode
                   ? 'bg-gray-800 border border-gray-700 hover:bg-gray-700'
                   : 'bg-white border border-gray-200 hover:bg-gray-50'
@@ -156,7 +150,7 @@ const AdminIssues = () => {
               onClick={() => setFilter('all')}
               className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-0.5 ${
                 filter === 'all'
-                  ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
+                  ? 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-700'
                   : isDarkMode
                   ? 'bg-gray-800 border border-gray-700 hover:bg-gray-700'
                   : 'bg-white border border-gray-200 hover:bg-gray-50'
@@ -275,7 +269,7 @@ const AdminIssues = () => {
             )}
           </div>
         </div>
-      </div>
+      </DashboardMain>
     </div>
   );
 };

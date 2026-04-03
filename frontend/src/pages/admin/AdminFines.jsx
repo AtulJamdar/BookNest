@@ -3,6 +3,7 @@ import { useTheme } from "../../hooks/useTheme";
 import axios from "axios";
 import { FiCheck, FiSearch } from "react-icons/fi";
 import AdminSidebar from "../../components/AdminSidebar";
+import DashboardMain from "../../components/layout/DashboardMain";
 
 const AdminFines = () => {
   const { isDarkMode } = useTheme();
@@ -76,10 +77,13 @@ const AdminFines = () => {
     return (
       <div
         className={`min-h-screen flex items-center justify-center ${
-          isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50"
+          isDarkMode ? "bg-gray-950 text-indigo-400" : "bg-gray-50 text-indigo-600"
         }`}
       >
-        Loading...
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-10 w-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+          <p className="font-medium animate-pulse">Loading fines...</p>
+        </div>
       </div>
     );
   }
@@ -90,23 +94,19 @@ const AdminFines = () => {
       {/* Sidebar */}
       <AdminSidebar />
 
-      {/* Main Content */}
-      <div
-        className={`flex-1 px-10 py-10 ${
-          isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
-        }`}
+      <DashboardMain
+        isDarkMode={isDarkMode}
+        heroTitle="Fine management"
+        heroSubtitle="Calculate overdue fees, track payments, and close the books on penalties."
       >
-        <div className="max-w-7xl mx-auto space-y-8 leading-relaxed">
-
-          {/* Header */}
-          <div className="flex justify-between items-center">
-            <h1 className="text-4xl font-bold">💰 Fine Management</h1>
-
+        <div className="space-y-8 leading-relaxed">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4">
             <button
+              type="button"
               onClick={handleCalculateFines}
-              className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold"
+              className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow-sm transition-colors w-full sm:w-auto text-center"
             >
-              Calculate Fines
+              Calculate fines
             </button>
           </div>
 
@@ -142,7 +142,7 @@ const AdminFines = () => {
               onClick={() => setFilter("pending")}
               className={`px-4 py-2 rounded font-semibold ${
                 filter === "pending"
-                  ? "bg-blue-500 text-white"
+                  ? "bg-indigo-600 text-white"
                   : isDarkMode
                   ? "bg-gray-700"
                   : "bg-gray-200"
@@ -155,7 +155,7 @@ const AdminFines = () => {
               onClick={() => setFilter("paid")}
               className={`px-4 py-2 rounded font-semibold ${
                 filter === "paid"
-                  ? "bg-blue-500 text-white"
+                  ? "bg-indigo-600 text-white"
                   : isDarkMode
                   ? "bg-gray-700"
                   : "bg-gray-200"
@@ -168,7 +168,7 @@ const AdminFines = () => {
               onClick={() => setFilter("all")}
               className={`px-4 py-2 rounded font-semibold ${
                 filter === "all"
-                  ? "bg-blue-500 text-white"
+                  ? "bg-indigo-600 text-white"
                   : isDarkMode
                   ? "bg-gray-700"
                   : "bg-gray-200"
@@ -189,7 +189,7 @@ const AdminFines = () => {
               placeholder="Search by student name or book title..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                 isDarkMode
                   ? "bg-gray-800 border-gray-700"
                   : "bg-white border-gray-300"
@@ -199,20 +199,20 @@ const AdminFines = () => {
 
           {/* Summary */}
           <div
-            className={`p-6 rounded-lg shadow ${
-              isDarkMode ? "bg-gray-800" : "bg-white"
+            className={`p-6 rounded-xl border shadow-sm ${
+              isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
             }`}
           >
             <p className="text-lg font-semibold">
-              Total Amount:{" "}
-              <span className="text-orange-500">₹{totalAmount}</span>
+              Total amount:{" "}
+              <span className="text-indigo-600 dark:text-indigo-400">₹{totalAmount}</span>
             </p>
           </div>
 
           {/* Table */}
           <div
-            className={`rounded-lg shadow overflow-hidden ${
-              isDarkMode ? "bg-gray-800" : "bg-white"
+            className={`rounded-xl border shadow-sm overflow-hidden ${
+              isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
             }`}
           >
             <div className="overflow-x-auto">
@@ -253,7 +253,7 @@ const AdminFines = () => {
                         {fine.daysOverdue} days
                       </td>
 
-                      <td className="px-6 py-5 text-right font-bold text-orange-500">
+                      <td className="px-6 py-5 text-right font-bold text-indigo-600 dark:text-indigo-400">
                         ₹{fine.totalFine}
                       </td>
 
@@ -292,11 +292,11 @@ const AdminFines = () => {
             </div>
 
             {filteredFinesList.length === 0 && (
-              <div className="p-6 text-center">No fines found.</div>
+              <div className="p-6 text-center text-gray-500">No fines found.</div>
             )}
           </div>
         </div>
-      </div>
+      </DashboardMain>
     </div>
   );
 };

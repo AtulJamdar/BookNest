@@ -11,10 +11,10 @@ import Footer from "../components/landing/Footer";
 
 export default function LandingPage() {
   return (
-    <div className="landing-bn min-h-screen flex flex-col">
+    <div className="landing-bn min-h-screen flex flex-col bg-gray-50">
       <Header />
 
-      <main className="flex-1">
+      <main className="flex-1 w-full">
         <Hero />
         <Features />
         <Stats />

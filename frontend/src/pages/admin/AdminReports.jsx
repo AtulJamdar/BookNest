@@ -3,6 +3,7 @@ import { useTheme } from "../../hooks/useTheme";
 import axios from "axios";
 import { FiDownload, FiFileText } from "react-icons/fi";
 import AdminSidebar from "../../components/AdminSidebar";
+import DashboardMain from "../../components/layout/DashboardMain";
 
 import {
   generateBooksReport,
@@ -63,13 +64,13 @@ const AdminReports = () => {
     count,
   }) => (
     <div
-      className={`p-6 rounded-lg shadow-md ${
-        isDarkMode ? "bg-gray-800" : "bg-white"
+      className={`p-6 rounded-xl border shadow-sm ${
+        isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
       }`}
     >
       <div className="flex items-start justify-between mb-5">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-blue-500 text-white rounded-lg">
+          <div className="p-3 bg-indigo-600 text-white rounded-lg shadow-sm">
             <Icon size={24} />
           </div>
 
@@ -118,10 +119,13 @@ const AdminReports = () => {
     return (
       <div
         className={`min-h-screen flex items-center justify-center ${
-          isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50"
+          isDarkMode ? "bg-gray-950 text-indigo-400" : "bg-gray-50 text-indigo-600"
         }`}
       >
-        Loading...
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-10 w-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+          <p className="font-medium animate-pulse">Loading reports...</p>
+        </div>
       </div>
     );
   }
@@ -132,17 +136,12 @@ const AdminReports = () => {
       {/* Sidebar */}
       <AdminSidebar />
 
-      {/* Main Content */}
-      <div
-        className={`flex-1 px-10 py-10 ${
-          isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
-        }`}
+      <DashboardMain
+        isDarkMode={isDarkMode}
+        heroTitle="Reports & exports"
+        heroSubtitle="Download PDF summaries or Excel spreadsheets for books, users, issues, and fines."
       >
-        <div className="max-w-7xl mx-auto space-y-10">
-
-          {/* Page Title */}
-          <h1 className="text-4xl font-bold">📊 Reports & Analytics</h1>
-
+        <div className="space-y-10">
           {error && (
             <div className="p-4 bg-red-100 text-red-700 rounded-lg">
               {error}
@@ -150,7 +149,7 @@ const AdminReports = () => {
           )}
 
           {/* Report Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
 
             <ReportCard
               title="Books Report"
@@ -191,11 +190,11 @@ const AdminReports = () => {
 
           {/* Summary Section */}
           <div
-            className={`p-8 rounded-lg shadow ${
-              isDarkMode ? "bg-gray-800" : "bg-white"
+            className={`p-8 rounded-xl border shadow-sm ${
+              isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
             }`}
           >
-            <h2 className="text-2xl font-bold mb-6">📈 Summary Statistics</h2>
+            <h2 className="text-2xl font-bold mb-6 tracking-tight">Summary statistics</h2>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 
@@ -204,7 +203,7 @@ const AdminReports = () => {
                   isDarkMode ? "bg-gray-700" : "bg-gray-100"
                 }`}
               >
-                <p className="text-3xl font-bold text-blue-500">
+                <p className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
                   {data.books.length}
                 </p>
                 <p className="text-sm">Total Books</p>
@@ -215,7 +214,7 @@ const AdminReports = () => {
                   isDarkMode ? "bg-gray-700" : "bg-gray-100"
                 }`}
               >
-                <p className="text-3xl font-bold text-purple-500">
+                <p className="text-3xl font-bold text-violet-600 dark:text-violet-400">
                   {data.users.length}
                 </p>
                 <p className="text-sm">Total Users</p>
@@ -237,7 +236,7 @@ const AdminReports = () => {
                   isDarkMode ? "bg-gray-700" : "bg-gray-100"
                 }`}
               >
-                <p className="text-3xl font-bold text-orange-500">
+                <p className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
                   ₹{data.fines.reduce((sum, f) => sum + f.totalFine, 0)}
                 </p>
                 <p className="text-sm">Total Fines</p>
@@ -247,7 +246,7 @@ const AdminReports = () => {
           </div>
 
         </div>
-      </div>
+      </DashboardMain>
     </div>
   );
 };

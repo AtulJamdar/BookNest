@@ -4,6 +4,7 @@ import axios from "axios";
 import { FiCheck, FiX, FiSearch } from "react-icons/fi";
 import RequestResponseModal from "../../components/RequestResponseModal";
 import AdminSidebar from "../../components/AdminSidebar";
+import DashboardMain from "../../components/layout/DashboardMain";
 
 const AdminRequests = () => {
   const { isDarkMode } = useTheme();
@@ -83,10 +84,13 @@ const AdminRequests = () => {
     return (
       <div
         className={`min-h-screen flex items-center justify-center ${
-          isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50"
+          isDarkMode ? "bg-gray-950 text-indigo-400" : "bg-gray-50 text-indigo-600"
         }`}
       >
-        Loading...
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-10 w-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+          <p className="font-medium animate-pulse">Loading requests...</p>
+        </div>
       </div>
     );
   }
@@ -97,16 +101,12 @@ const AdminRequests = () => {
       {/* Sidebar */}
       <AdminSidebar />
 
-      {/* Main Content */}
-      <div
-        className={`flex-1 px-10 py-10 ${
-          isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
-        }`}
+      <DashboardMain
+        isDarkMode={isDarkMode}
+        heroTitle="Book requests"
+        heroSubtitle="Review, approve, or reject patron holds—clear queue, calm library."
       >
-        <div className="max-w-7xl mx-auto space-y-8 leading-relaxed">
-
-          {/* Title */}
-          <h1 className="text-4xl font-bold">📚 Book Requests</h1>
+        <div className="space-y-8 leading-relaxed">
 
           {/* Error */}
           {error && (
@@ -197,7 +197,7 @@ const AdminRequests = () => {
               placeholder="Search by student name or book title..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                 isDarkMode
                   ? "bg-gray-800 border-gray-700"
                   : "bg-white border-gray-300"
@@ -207,8 +207,8 @@ const AdminRequests = () => {
 
           {/* Table */}
           <div
-            className={`rounded-xl shadow-lg overflow-hidden ${
-              isDarkMode ? "bg-gray-800" : "bg-white"
+            className={`rounded-xl shadow-sm border overflow-hidden ${
+              isDarkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
             }`}
           >
             <div className="overflow-x-auto">
@@ -300,11 +300,11 @@ const AdminRequests = () => {
             </div>
 
             {filteredRequestsList.length === 0 && (
-              <div className="p-6 text-center">No requests found.</div>
+              <div className="p-6 text-center text-gray-500">No requests found.</div>
             )}
           </div>
         </div>
-      </div>
+      </DashboardMain>
 
       {showModal && selectedRequest && (
         <RequestResponseModal

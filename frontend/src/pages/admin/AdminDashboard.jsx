@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import axios from "axios";
 import { FiBook, FiUsers, FiFileText, FiAlertCircle } from "react-icons/fi";
-import AdminSidebar from "../../components/AdminSidebar"; // you will change path later
+import AdminSidebar from "../../components/AdminSidebar";
+import DashboardMain from "../../components/layout/DashboardMain";
+
+const accentStyles = [
+  "bg-indigo-100 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300",
+  "bg-violet-100 text-violet-600 dark:bg-violet-950/50 dark:text-violet-300",
+  "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200",
+  "bg-violet-50 text-violet-700 dark:bg-violet-900/40 dark:text-violet-200",
+];
 
 const AdminDashboard = () => {
   const { isDarkMode } = useTheme();
@@ -45,20 +53,27 @@ const AdminDashboard = () => {
     }
   };
 
-  const StatSquare = ({ icon: Icon, title, value, accent }) => (
+  const StatSquare = ({ icon: Icon, title, value, accentIndex = 0 }) => (
     <div
-      className={`h-40 rounded-xl border flex flex-col items-center justify-center text-center transition-all duration-300 ease-out hover:shadow-lg hover:scale-[1.02] hover:-translate-y-1 cursor-pointer ${
+      className={`min-h-[160px] rounded-2xl border flex flex-col items-center justify-center text-center p-6 transition-all duration-300 hover:shadow-lg hover:border-indigo-200 dark:hover:border-indigo-800 ${
         isDarkMode
-          ? "bg-gray-800 border-gray-700"
-          : "bg-white border-gray-200"
+          ? "bg-gray-900/80 border-gray-800"
+          : "bg-white border-gray-200 shadow-sm"
       }`}
     >
-      <div className={`p-2 rounded-lg mb-2 ${accent}`}>
-        <Icon size={20} />
+      <div
+        className={`p-3 rounded-xl mb-3 ${accentStyles[accentIndex % accentStyles.length]}`}
+      >
+        <Icon size={22} />
       </div>
-
-      <p className="text-3xl font-bold">{value}</p>
-      <p className={`text-sm mt-1 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+      <p className="text-3xl font-bold tabular-nums text-gray-900 dark:text-white">
+        {value}
+      </p>
+      <p
+        className={`text-sm mt-2 max-w-[12rem] ${
+          isDarkMode ? "text-gray-400" : "text-gray-500"
+        }`}
+      >
         {title}
       </p>
     </div>
@@ -71,113 +86,132 @@ const AdminDashboard = () => {
           isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
         }`}
       >
-        Loading Dashboard...
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-10 w-10 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
+          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            Loading dashboard…
+          </p>
+        </div>
       </div>
     );
   }
 
+  const bookStats = [
+    {
+      icon: FiBook,
+      title: "Total Books",
+      value: stats.books.totalBooks,
+    },
+    {
+      icon: FiBook,
+      title: "Available Copies",
+      value: stats.books.totalAvailableCopies,
+    },
+    {
+      icon: FiBook,
+      title: "Issued Copies",
+      value: stats.books.totalIssuedCopies,
+    },
+  ];
+
+  const userStats = [
+    { icon: FiUsers, title: "Total Users", value: stats.users.totalUsers },
+    { icon: FiUsers, title: "Students", value: stats.users.totalStudents },
+    { icon: FiUsers, title: "Admins", value: stats.users.totalAdmins },
+    {
+      icon: FiFileText,
+      title: "Students w/ Active Books",
+      value: stats.users.studentsWithActiveBooks,
+    },
+    {
+      icon: FiAlertCircle,
+      title: "Overdue Students",
+      value: stats.users.studentsWithOverdueBooks,
+    },
+  ];
+
+  const issueStats = [
+    {
+      icon: FiFileText,
+      title: "Books Issued",
+      value: stats.issues.totalIssued,
+    },
+    {
+      icon: FiFileText,
+      title: "Books Returned",
+      value: stats.issues.totalReturned,
+    },
+    {
+      icon: FiAlertCircle,
+      title: "Overdue Books",
+      value: stats.issues.overdueBooks,
+    },
+  ];
+
   return (
-    <div className={`flex ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}>
-      
-      {/* Sidebar Component */}
+    <div
+      className={`flex min-h-screen ${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
+      }`}
+    >
       <AdminSidebar />
 
-      {/* Right Content */}
-      <main className="flex-1 p-10">
-
-        <h1 className="text-3xl font-bold mb-10">Dashboard Overview</h1>
-
-        {/* Books */}
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold mb-6">Books</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <StatSquare
-              icon={FiBook}
-              title="Total Books"
-              value={stats.books.totalBooks}
-              accent="bg-blue-100 text-blue-600"
-            />
-            <StatSquare
-              icon={FiBook}
-              title="Available Copies"
-              value={stats.books.totalAvailableCopies}
-              accent="bg-green-100 text-green-600"
-            />
-            <StatSquare
-              icon={FiBook}
-              title="Issued Copies"
-              value={stats.books.totalIssuedCopies}
-              accent="bg-orange-100 text-orange-600"
-            />
+      <DashboardMain
+        isDarkMode={isDarkMode}
+        heroTitle="Dashboard overview"
+        heroSubtitle="Live snapshot of your library—books, patrons, and circulation in one place."
+      >
+        <section className="mb-14 text-center">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+            Books
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {bookStats.map((s, i) => (
+              <StatSquare
+                key={s.title}
+                icon={s.icon}
+                title={s.title}
+                value={s.value}
+                accentIndex={i}
+              />
+            ))}
           </div>
         </section>
 
-        {/* Users */}
-        <section className="mb-12">
-          <h2 className="text-xl font-semibold mb-6">Users</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <StatSquare
-              icon={FiUsers}
-              title="Total Users"
-              value={stats.users.totalUsers}
-              accent="bg-blue-100 text-blue-600"
-            />
-            <StatSquare
-              icon={FiUsers}
-              title="Students"
-              value={stats.users.totalStudents}
-              accent="bg-purple-100 text-purple-600"
-            />
-            <StatSquare
-              icon={FiUsers}
-              title="Admins"
-              value={stats.users.totalAdmins}
-              accent="bg-red-100 text-red-600"
-            />
-            <StatSquare
-              icon={FiFileText}
-              title="Active Books"
-              value={stats.users.studentsWithActiveBooks}
-              accent="bg-cyan-100 text-cyan-600"
-            />
-            <StatSquare
-              icon={FiAlertCircle}
-              title="Overdue Students"
-              value={stats.users.studentsWithOverdueBooks}
-              accent="bg-red-100 text-red-600"
-            />
+        <section className="mb-14 text-center">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+            Users
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {userStats.map((s, i) => (
+              <StatSquare
+                key={s.title}
+                icon={s.icon}
+                title={s.title}
+                value={s.value}
+                accentIndex={i}
+              />
+            ))}
           </div>
         </section>
 
-        {/* Issues */}
-        <section>
-          <h2 className="text-xl font-semibold mb-6">Issues</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <StatSquare
-              icon={FiFileText}
-              title="Books Issued"
-              value={stats.issues.totalIssued}
-              accent="bg-blue-100 text-blue-600"
-            />
-            <StatSquare
-              icon={FiFileText}
-              title="Books Returned"
-              value={stats.issues.totalReturned}
-              accent="bg-green-100 text-green-600"
-            />
-            <StatSquare
-              icon={FiAlertCircle}
-              title="Overdue Books"
-              value={stats.issues.overdueBooks}
-              accent="bg-red-100 text-red-600"
-            />
+        <section className="text-center">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+            Issues
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {issueStats.map((s, i) => (
+              <StatSquare
+                key={s.title}
+                icon={s.icon}
+                title={s.title}
+                value={s.value}
+                accentIndex={i}
+              />
+            ))}
           </div>
         </section>
-
-      </main>
+      </DashboardMain>
     </div>
   );
 };
