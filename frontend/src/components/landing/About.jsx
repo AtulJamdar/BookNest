@@ -1,208 +1,79 @@
-// import React from "react";
-// import Section from "../ui/Section";
-// import { Cloud, Lock, Zap, Award } from "lucide-react";
-
-// export default function About() {
-//   const features = [
-//     {
-//       icon: <Cloud className="w-5 h-5" />,
-//       title: "Cloud Based",
-//       desc: "Access your system anywhere, anytime.",
-//     },
-//     {
-//       icon: <Lock className="w-5 h-5" />,
-//       title: "Secure",
-//       desc: "Your data is protected with strong security.",
-//     },
-//     {
-//       icon: <Zap className="w-5 h-5" />,
-//       title: "Fast",
-//       desc: "Optimized for smooth and quick performance.",
-//     },
-//     {
-//       icon: <Award className="w-5 h-5" />,
-//       title: "Reliable",
-//       desc: "Built to handle real-world usage.",
-//     },
-//   ];
-
-//   return (
-//     <Section id="about" className="bg-background py-24">
-//       {/* Force true center alignment */}
-//       <div className="flex justify-center">
-//         <div className="max-w-5xl w-full text-center px-4">
-//           {/* Heading */}
-//           <div className="space-y-6 mb-16">
-//             <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-tight">
-//               Simple. Fast. Reliable.
-//             </h2>
-//             <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-//               A modern library management system designed to simplify daily
-//               operations, reduce manual work, and improve efficiency.
-//             </p>
-//           </div>
-
-//           {/* Features */}
-//           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 md:gap-12 place-items-center">
-//             {features.map((item, i) => (
-//               <div
-//                 key={i}
-//                 className="w-full max-w-sm flex flex-col items-center text-center gap-4 p-6 border border-border rounded-xl"
-//               >
-//                 <div className="p-3 bg-primary/10 rounded-lg text-primary">
-//                   {item.icon}
-//                 </div>
-//                 <div className="space-y-2">
-//                   <h4 className="font-medium text-foreground text-base">
-//                     {item.title}
-//                   </h4>
-//                   <p className="text-sm text-muted-foreground leading-relaxed">
-//                     {item.desc}
-//                   </p>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-
-//           {/* CTA */}
-//           <div className="mt-16">
-//             <a
-//               href="#contact"
-//               className="inline-block px-6 py-3 bg-primary text-white rounded-lg font-medium hover:opacity-90 transition"
-//             >
-//               Learn More
-//             </a>
-//           </div>
-//         </div>
-//       </div>
-//     </Section>
-//   );
-// }
-
 import React from "react";
 import Section from "../ui/Section";
 import { Cloud, Lock, Zap, Award } from "lucide-react";
 
-export default function About() {
-  const features = [
-    {
-      icon: <Cloud className="w-6 h-6" />,
-      title: "Cloud Based",
-      desc: "Access your system anywhere, anytime — from any device, any location.",
-    },
-    {
-      icon: <Lock className="w-6 h-6" />,
-      title: "Secure",
-      desc: "Your data is protected with enterprise-grade encryption and security.",
-    },
-    {
-      icon: <Zap className="w-6 h-6" />,
-      title: "Fast",
-      desc: "Optimized for lightning-quick performance even at scale.",
-    },
-    {
-      icon: <Award className="w-6 h-6" />,
-      title: "Reliable",
-      desc: "Built to handle real-world usage with 99.9% uptime guarantee.",
-    },
-  ];
+const items = [
+  {
+    icon: Cloud,
+    title: "Cloud-first, India-ready",
+    desc: "Host on infrastructure aligned with uptime expectations for academic calendars and exam seasons.",
+  },
+  {
+    icon: Lock,
+    title: "Privacy by design",
+    desc: "Granular roles for librarians, admins, and IT—so data stays with the people who should see it.",
+  },
+  {
+    icon: Zap,
+    title: "Performance at scale",
+    desc: "Built for peak periods: admissions, exams, and community events when your desk is busiest.",
+  },
+  {
+    icon: Award,
+    title: "Partnership, not just software",
+    desc: "Implementation checklists and training paths so adoption succeeds in multi-location setups.",
+  },
+];
 
+export default function About() {
   return (
     <Section
       id="about"
-      className="relative py-32 overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0f172a 70%, #0c1a2e 100%)",
-      }}
+      className="!py-16 md:!py-24 bg-gradient-to-b from-[#f0fdfa]/80 via-[#f7f5f2] to-[#f7f5f2]"
     >
-      {/* Decorative blobs */}
-      <div
-        className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(circle, #6366f1, transparent)" }}
-      />
-      <div
-        className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full opacity-10 blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(circle, #f59e0b, transparent)" }}
-      />
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        <div>
+          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-[#0f766e] mb-3">
+            Why BookNest
+          </p>
+          <h2 className="text-[1.875rem] sm:text-[2.25rem] font-bold text-[#1e3a5f] tracking-tight leading-tight mb-5">
+            The calibre institutions expect from modern library systems
+          </h2>
+          <p className="text-stone-600 text-[1.0625rem] leading-relaxed mb-6">
+            We combine disciplined product design with workflows your staff already
+            understand—so change management is practical, not theoretical.
+          </p>
+          <a
+            href="#contact"
+            className="inline-flex items-center justify-center rounded-xl border-2 border-[#1e3a5f] px-6 py-3 text-[0.9375rem] font-semibold text-[#1e3a5f] hover:bg-[#1e3a5f] hover:text-white transition-colors"
+          >
+            Talk to our team
+          </a>
+        </div>
 
-      <div className="relative z-10 flex justify-center">
-        <div className="max-w-5xl w-full text-center px-4">
-          {/* Label */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 rounded-full border border-white/10 bg-white/5 text-amber-400 text-xs font-semibold uppercase tracking-widest">
-            Why Choose Us
-          </div>
-
-          {/* Heading */}
-          <div className="space-y-5 mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
-              Simple.{" "}
-              <span
-                style={{
-                  background: "linear-gradient(90deg, #f59e0b, #fbbf24)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                Fast.
-              </span>{" "}
-              Reliable.
-            </h2>
-            <p className="text-white/60 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-              A modern library management system designed to simplify daily
-              operations, reduce manual work, and improve efficiency.
-            </p>
-          </div>
-
-          {/* Features Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 place-items-center">
-            {features.map((item, i) => (
-              <div
+        <ul className="space-y-4">
+          {items.map((row, i) => {
+            const Icon = row.icon;
+            return (
+              <li
                 key={i}
-                className="w-full max-w-sm flex flex-col items-center text-center gap-4 p-8 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  backdropFilter: "blur(10px)",
-                }}
+                className="flex gap-4 rounded-2xl border border-stone-200/90 bg-white p-5 sm:p-6 shadow-sm"
               >
-                <div
-                  className="p-3 rounded-xl"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(245,158,11,0.2), rgba(251,191,36,0.1))",
-                    color: "#f59e0b",
-                  }}
-                >
-                  {item.icon}
-                </div>
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-white text-base">
-                    {item.title}
-                  </h4>
-                  <p className="text-sm text-white/50 leading-relaxed">
-                    {item.desc}
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#fff7ed] text-[#b45309]">
+                  <Icon className="w-5 h-5" strokeWidth={2} />
+                </span>
+                <div>
+                  <h3 className="text-[1rem] font-semibold text-[#1e3a5f] tracking-tight mb-1">
+                    {row.title}
+                  </h3>
+                  <p className="text-[0.875rem] leading-relaxed text-stone-600">
+                    {row.desc}
                   </p>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <div className="mt-16">
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 hover:scale-105 hover:shadow-lg"
-              style={{
-                background: "linear-gradient(135deg, #f59e0b, #d97706)",
-                color: "#0f172a",
-              }}
-            >
-              Learn More
-            </a>
-          </div>
-        </div>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </Section>
   );

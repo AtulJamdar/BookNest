@@ -1,70 +1,64 @@
 import React from "react";
-import { BookMarked, Twitter, Linkedin, Github } from "lucide-react";
+import { BookMarked, Linkedin, Twitter } from "lucide-react";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const y = new Date().getFullYear();
 
-  const sections = [
+  const groups = [
     {
       title: "Product",
-      links: ["Features", "Pricing", "Security"],
+      links: ["Features", "Security", "Pricing", "API"],
     },
-    {
-      title: "Company",
-      links: ["About", "Careers", "Contact"],
-    },
-    {
-      title: "Resources",
-      links: ["Docs", "Help", "Guides"],
-    },
+    { title: "Company", links: ["About us", "Careers", "Partners"] },
+    { title: "Support", links: ["Help centre", "Docs", "Status"] },
   ];
 
   return (
-    <footer className="bg-background border-t border-border py-24">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
-        
-        {/* TOP */}
-        <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-          
-          {/* Brand */}
-          <div className="space-y-5 max-w-sm">
-            <div className="flex items-center gap-3">
-              <div className="bg-primary p-2 rounded-lg">
-                <BookMarked className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-bold text-lg text-foreground">
-                Library<span className="text-primary">SaaS</span>
+    <footer className="bg-[#1e3a5f] text-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 md:py-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-11 lg:gap-8">
+          <div className="lg:col-span-2">
+            <div className="flex items-center gap-2.5 mb-4">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15">
+                <BookMarked className="w-5 h-5 text-amber-300" strokeWidth={2} />
+              </span>
+              <span className="text-[1.0625rem] font-bold tracking-tight">
+                BookNest
               </span>
             </div>
-
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Modern library management system designed for simplicity, speed, and reliability.
+            <p className="text-white/75 text-[0.875rem] leading-relaxed max-w-sm mb-6">
+              Library automation for schools, universities, and public systems
+              across India—trusted where reading communities grow.
             </p>
-
-            <div className="flex gap-3">
-              {[Twitter, Linkedin, Github].map((Icon, i) => (
-                <div
-                  key={i}
-                  className="p-2 border border-border rounded-md hover:bg-muted transition"
-                >
-                  <Icon className="w-4 h-4" />
-                </div>
-              ))}
+            <div className="flex gap-2">
+              <a
+                href="#"
+                className="p-2.5 rounded-lg bg-white/10 hover:bg-white/15 transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+              <a
+                href="#"
+                className="p-2.5 rounded-lg bg-white/10 hover:bg-white/15 transition-colors"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
-          {/* Links */}
-          {sections.map((section, i) => (
-            <div key={i} className="space-y-4 text-center md:text-left">
-              <h4 className="font-semibold text-foreground">
-                {section.title}
+          {groups.map((g) => (
+            <div key={g.title}>
+              <h4 className="text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-amber-200/90 mb-4">
+                {g.title}
               </h4>
-              <ul className="space-y-2">
-                {section.links.map((link, j) => (
-                  <li key={j}>
+              <ul className="space-y-2.5">
+                {g.links.map((link) => (
+                  <li key={link}>
                     <a
                       href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition"
+                      className="text-[0.875rem] text-white/80 hover:text-white transition-colors"
                     >
                       {link}
                     </a>
@@ -75,13 +69,15 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* BOTTOM */}
-        <div className="w-full pt-6 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <p>© {currentYear} Library SaaS</p>
-
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-foreground transition">Privacy</a>
-            <a href="#" className="hover:text-foreground transition">Terms</a>
+        <div className="mt-12 pt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-[0.8125rem] text-white/65">
+          <p>© {y} BookNest Technologies. All rights reserved.</p>
+          <div className="flex flex-wrap gap-6">
+            <a href="#" className="hover:text-white transition-colors">
+              Privacy policy
+            </a>
+            <a href="#" className="hover:text-white transition-colors">
+              Terms of service
+            </a>
           </div>
         </div>
       </div>

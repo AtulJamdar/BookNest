@@ -1,82 +1,88 @@
 import React, { useState } from "react";
 import Section from "../ui/Section";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
-const testimonials = [
+const quotes = [
   {
-    name: "Sarah Jenkins",
-    role: "Head Librarian",
-    text: "This system saved us hours every week. Everything is faster and easier now.",
+    name: "Dr. Meera Nair",
+    role: "University Librarian · South India",
+    text: "Our consortium moved three colleges onto BookNest in one academic year. Training was short and support was responsive when we needed custom rules.",
   },
   {
-    name: "David Chen",
-    role: "IT Director",
-    text: "Setup was simple and performance is excellent. Our team loves it.",
+    name: "Arjun Kapoor",
+    role: "IT Lead · K–12 chain",
+    text: "Permissions and audit trails were non-negotiable for our leadership team. BookNest gave us both without slowing librarians down.",
   },
   {
-    name: "Elena Rodriguez",
-    role: "Library Director",
-    text: "Very intuitive system. No training needed for our staff.",
+    name: "Sunita Deshpande",
+    role: "Public library district",
+    text: "Peak-hour checkout finally feels smooth. Patrons notice the shorter wait more than they notice the software—and that is exactly what we wanted.",
   },
 ];
 
 export default function Testimonials() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const next = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  const prev = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-
-  const current = testimonials[currentIndex];
+  const [idx, setIdx] = useState(0);
+  const t = quotes[idx];
 
   return (
-    <Section id="testimonials" className="bg-background py-32">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col items-center">
-        {/* Heading */}
-        <div className="text-center space-y-6 mb-20 max-w-3xl">
-          <h2 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight">
-            What Users Say
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            Real feedback from people using the system daily.
-          </p>
-        </div>
+    <Section id="testimonials" className="!py-16 md:!py-24 bg-white">
+      <div className="text-center max-w-2xl mx-auto mb-12 md:mb-14">
+        <p className="text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-[#0f766e] mb-3">
+          Stories
+        </p>
+        <h2 className="text-[1.875rem] sm:text-[2.25rem] font-bold text-[#1e3a5f] tracking-tight">
+          Hear from librarians on the ground
+        </h2>
+      </div>
 
-        {/* MAIN CARD */}
-        <div className="w-full max-w-3xl text-center border border-border rounded-2xl p-10 space-y-6 transition-all duration-300 hover:shadow-lg">
-          {/* Stars */}
-          <div className="flex justify-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 text-primary" />
-            ))}
+      <div className="max-w-3xl mx-auto rounded-2xl border border-stone-200 bg-[#fafaf9] p-8 sm:p-10 md:p-12 relative">
+        <Quote
+          className="absolute top-8 right-8 w-10 h-10 text-[#0f766e]/15 hidden sm:block"
+          aria-hidden
+        />
+        <blockquote className="text-[1.0625rem] sm:text-[1.125rem] leading-relaxed text-stone-800 text-left mb-10">
+          “{t.text}”
+        </blockquote>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          <div className="text-left">
+            <cite className="not-italic text-[1rem] font-semibold text-[#1e3a5f]">
+              {t.name}
+            </cite>
+            <p className="text-[0.875rem] text-stone-500 mt-1">{t.role}</p>
           </div>
-
-          {/* Text */}
-          <p className="text-lg md:text-xl text-foreground leading-relaxed">
-            "{current.text}"
-          </p>
-
-          {/* Author */}
-          <div className="space-y-1">
-            <div className="font-semibold text-foreground">{current.name}</div>
-            <div className="text-sm text-muted-foreground">{current.role}</div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                setIdx((i) => (i - 1 + quotes.length) % quotes.length)
+              }
+              className="p-2.5 rounded-xl border border-stone-200 bg-white text-stone-700 hover:border-[#0f766e]/40 transition-colors"
+              aria-label="Previous"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <div className="flex gap-1.5 px-2">
+              {quotes.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setIdx(i)}
+                  className={`h-2 rounded-full transition-all ${
+                    i === idx ? "w-8 bg-[#0f766e]" : "w-2 bg-stone-300"
+                  }`}
+                  aria-label={`Quote ${i + 1}`}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => setIdx((i) => (i + 1) % quotes.length)}
+              className="p-2.5 rounded-xl border border-stone-200 bg-white text-stone-700 hover:border-[#0f766e]/40 transition-colors"
+              aria-label="Next"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
           </div>
-        </div>
-
-        {/* NAVIGATION */}
-        <div className="flex items-center justify-center gap-6 mt-10">
-          <button
-            onClick={prev}
-            className="p-3 border border-border rounded-full hover:bg-muted transition"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
-          <button
-            onClick={next}
-            className="p-3 border border-border rounded-full hover:bg-muted transition"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
         </div>
       </div>
     </Section>

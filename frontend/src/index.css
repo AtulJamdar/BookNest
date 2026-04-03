@@ -10,7 +10,7 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -142,4 +142,13 @@ code {
   body {
     @apply bg-background text-foreground;
     }
+}
+
+/* Landing: warm institutional palette (education / library SaaS) */
+.landing-bn {
+  font-family: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  background-color: #f7f5f2;
+  color: #1c1917;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.015em;
 }

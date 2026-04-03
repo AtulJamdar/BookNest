@@ -1,184 +1,178 @@
 import React, { useState, useEffect } from "react";
-import { BookMarked, Menu, X, ChevronDown, User, LogIn, UserPlus } from "lucide-react";
+import { BookMarked, Menu, X, ChevronDown } from "lucide-react";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // This would come from auth context
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navigationItems = [
+  const links = [
     {
       name: "Product",
       href: "#features",
-      type: "link",
       submenu: [
         { name: "Features", href: "#features" },
-        { name: "Pricing", href: "#pricing" },
-        { name: "Security", href: "#security" },
-        { name: "API", href: "#api" }
-      ]
+        { name: "Why BookNest", href: "#about" },
+        { name: "Impact", href: "#stats" },
+      ],
     },
-    { name: "About", href: "#about", type: "link" },
-    { name: "Testimonials", href: "#testimonials", type: "link" },
-    { name: "Contact", href: "#contact", type: "link" },
-    { name: "Login", href: "/login", type: "secondary-btn" },
-    { name: "Sign Up", href: "/register", type: "primary-btn" },
+    { name: "Stories", href: "#testimonials" },
+    { name: "Contact", href: "#contact" },
   ];
 
-  const handleNavClick = (href) => {
-    if (href.startsWith('#')) {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+  const scrollTo = (href) => {
+    if (href.startsWith("#")) {
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
     }
     setIsMobileMenuOpen(false);
   };
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6
-      ${isScrolled
-        ? "bg-background/95 backdrop-blur-xl border-b border-border py-3 shadow-lg"
-        : "bg-transparent py-6"}`}
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/92 backdrop-blur-md shadow-sm shadow-stone-900/5 border-b border-stone-200/90"
+          : "bg-white/80 backdrop-blur-sm border-b border-transparent"
+      }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="bg-primary rounded-xl p-2 shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
-            <BookMarked className="w-6 h-6 text-white" />
-          </div>
-          <span className="font-extrabold text-xl tracking-tighter text-foreground">
-            Library<span className="text-primary">SaaS</span>
+      <div className="max-w-6xl mx-auto h-[3.75rem] px-4 sm:px-6 flex items-center justify-between gap-4">
+        <a href="/" className="flex items-center gap-2.5 shrink-0">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#1e3a5f] to-[#0f766e] text-white shadow-md shadow-[#1e3a5f]/20">
+            <BookMarked className="w-5 h-5" strokeWidth={2} aria-hidden />
           </span>
-        </div>
+          <span className="text-[1.05rem] font-semibold tracking-tight text-[#1e3a5f]">
+            BookNest
+          </span>
+        </a>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {navigationItems.map((item) => {
-            if (item.type === "link") {
-              return (
-                <div key={item.name} className="relative group">
-                  <a
-                    href={item.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(item.href);
-                    }}
-                    className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 ease-out py-2 hover:scale-105"
-                  >
-                    {item.name}
-                    {item.submenu && <ChevronDown className="w-4 h-4" />}
-                  </a>
-
-                  {/* Submenu */}
-                  {item.submenu && (
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out py-2 hover:scale-[1.01] hover:-translate-y-1">
-                      {item.submenu.map((subItem) => (
-                        <a
-                          key={subItem.name}
-                          href={subItem.href}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleNavClick(subItem.href);
-                          }}
-                          className="block px-4 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200 ease-out hover:translate-x-1"
-                        >
-                          {subItem.name}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            }
-
-            if (item.type === "secondary-btn") {
-              return (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 ease-out hover:scale-105"
+        <nav className="hidden md:flex items-center gap-1 flex-1 justify-center">
+          {links.map((item) =>
+            item.submenu ? (
+              <div key={item.name} className="relative group">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 px-3 py-2 text-[0.8125rem] font-medium text-stone-600 hover:text-[#1e3a5f] rounded-lg"
                 >
                   {item.name}
-                </a>
-              );
-            }
-
-            return (
+                  <ChevronDown className="w-[0.875rem] h-[0.875rem] opacity-70" />
+                </button>
+                <div className="absolute left-0 top-full pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-50">
+                  <div className="min-w-[11rem] rounded-xl border border-stone-200/90 bg-white py-1.5 shadow-lg shadow-stone-900/10">
+                    {item.submenu.map((sub) => (
+                      <a
+                        key={sub.name}
+                        href={sub.href}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          scrollTo(sub.href);
+                        }}
+                        className="block px-4 py-2.5 text-[0.8125rem] text-stone-600 hover:bg-[#f0fdfa] hover:text-[#0f766e]"
+                      >
+                        {sub.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
               <a
                 key={item.name}
                 href={item.href}
-                className="px-6 py-2.5 bg-primary text-primary-foreground rounded-full font-bold text-sm hover:bg-primary/90 transition-all duration-300 ease-out shadow-lg hover:shadow-primary/25 hover:scale-105 hover:-translate-y-0.5 flex items-center gap-2"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollTo(item.href);
+                }}
+                className={`px-3 py-2 text-[0.8125rem] font-medium text-stone-600 hover:text-[#1e3a5f] rounded-lg ${
+                  item.name === "Contact" ? "ml-5" : ""
+                }`}
               >
-                <UserPlus className="w-4 h-4" />
                 {item.name}
               </a>
-            );
-          })}
+            )
+          )}
         </nav>
 
-        {/* Mobile Menu Button */}
+        <div className="hidden md:flex items-center gap-2 shrink-0">
+          <a
+            href="/login"
+            className="px-3 py-2 text-[0.8125rem] font-semibold text-stone-600 hover:text-[#1e3a5f]"
+          >
+            Sign in
+          </a>
+          <a
+            href="/register"
+            className="inline-flex items-center justify-center rounded-xl bg-[#0f766e] px-4 py-2 text-[0.8125rem] font-semibold text-white shadow-sm hover:bg-[#0d9488] transition-colors"
+          >
+            Get started
+          </a>
+        </div>
+
         <button
-          className="lg:hidden p-2 text-foreground hover:text-primary transition-colors duration-200 ease-out hover:scale-110"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle mobile menu"
+          type="button"
+          className="md:hidden p-2 rounded-lg text-stone-800 hover:bg-stone-100"
+          onClick={() => setIsMobileMenuOpen((v) => !v)}
+          aria-label="Menu"
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border shadow-2xl animate-in slide-in-from-top duration-300">
-          <div className="px-6 py-6 space-y-4">
-            {navigationItems.map((item) => {
-              if (item.type === "link") {
-                return (
+        <div className="md:hidden border-t border-stone-200 bg-white px-4 py-4">
+          {links.map((item) =>
+            item.submenu ? (
+              <div key={item.name} className="py-2">
+                <p className="text-[0.6875rem] font-bold uppercase tracking-wider text-stone-400 px-2 mb-1">
+                  {item.name}
+                </p>
+                {item.submenu.map((sub) => (
                   <a
-                    key={item.name}
-                    href={item.href}
+                    key={sub.name}
+                    href={sub.href}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavClick(item.href);
+                      scrollTo(sub.href);
                     }}
-                    className="block py-3 text-lg font-medium text-foreground hover:text-primary transition-colors"
+                    className="block py-2.5 px-2 text-[0.9375rem] text-stone-800"
                   >
-                    {item.name}
+                    {sub.name}
                   </a>
-                );
-              }
-
-              if (item.type === "secondary-btn") {
-                return (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="block py-3 text-lg font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
-                  >
-                    <LogIn className="w-5 h-5" />
-                    {item.name}
-                  </a>
-                );
-              }
-
-              return (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="block w-full py-3 bg-primary text-primary-foreground rounded-xl font-bold text-lg hover:bg-primary/90 transition-all duration-300 text-center flex items-center justify-center gap-2"
-                >
-                  <UserPlus className="w-5 h-5" />
-                  {item.name}
-                </a>
-              );
-            })}
+                ))}
+              </div>
+            ) : (
+              <a
+                key={item.name}
+                href={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollTo(item.href);
+                }}
+                className={`block py-3 text-[0.9375rem] font-medium text-stone-800 ${
+                  item.name === "Contact" ? "mt-2 pt-3 border-t border-stone-100" : ""
+                }`}
+              >
+                {item.name}
+              </a>
+            )
+          )}
+          <div className="mt-4 pt-4 border-t border-stone-200 space-y-2">
+            <a
+              href="/login"
+              className="block w-full py-3 text-center rounded-xl border border-stone-200 font-semibold text-stone-700"
+            >
+              Sign in
+            </a>
+            <a
+              href="/register"
+              className="block w-full py-3 text-center rounded-xl bg-[#0f766e] font-semibold text-white"
+            >
+              Get started
+            </a>
           </div>
         </div>
       )}
