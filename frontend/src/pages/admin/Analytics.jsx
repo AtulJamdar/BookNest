@@ -118,7 +118,7 @@ const Analytics = () => {
   }
 
   return (
-    <div className={`flex min-h-screen ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"}`}>
+    <div className={`flex min-h-screen ${isDarkMode ? "bg-emerald-900 text-white" : "bg-emerald-50 text-gray-900"}`}>
       
       {/* Sidebar */}
       <AdminSidebar />

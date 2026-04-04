@@ -122,16 +122,20 @@ const AdminBooks = () => {
         {/* Filters and Actions Bar */}
         <div className="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
           <div className="relative w-full max-w-md">
-            <FiSearch
-              size={20}
-              className={`absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}
-            />
+            {!searchTerm && (
+              <FiSearch
+                size={20}
+                className={`absolute left-3 top-1/2 -translate-y-1/2 transition-opacity duration-300 ${
+                  isDarkMode ? "text-gray-500" : "text-gray-400"
+                }`}
+              />
+            )}
             <Input
               type="text"
               placeholder="Search by title or author..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`pl-11 rounded-xl transition-all ${
+              className={`${searchTerm ? 'pl-4' : 'pl-11'} rounded-xl transition-all duration-300 ${
                 isDarkMode 
                   ? "bg-gray-900/50 border-gray-800 focus:ring-indigo-500 focus:border-indigo-500" 
                   : "bg-white border-gray-200"
@@ -150,6 +154,7 @@ const AdminBooks = () => {
                 isDarkMode ? "bg-gray-800/50 text-gray-400" : "bg-gray-50 text-gray-500"
               }`}>
                 <tr>
+                  <th className="px-6 py-4">Image</th>
                   <th className="px-6 py-4">Book Details</th>
                   <th className="px-6 py-4">Category</th>
                   <th className="px-6 py-4 text-center">Inventory</th>
@@ -161,7 +166,7 @@ const AdminBooks = () => {
               <tbody className="divide-y divide-gray-800/10">
                 {filteredBooks.length === 0 ? (
                   <tr>
-                    <td colSpan="5" className="text-center py-16 opacity-60">
+                    <td colSpan="6" className="text-center py-16 opacity-60">
                       <div className="flex flex-col items-center gap-2">
                         <FiSearch size={32} />
                         <p className="text-sm">No books matching your search.</p>
@@ -173,6 +178,19 @@ const AdminBooks = () => {
                     <tr key={book._id} className={`transition-colors ${
                       isDarkMode ? "hover:bg-gray-800/40" : "hover:bg-gray-50"
                     }`}>
+                      <td className="px-6 py-4">
+                        {book.image ? (
+                          <img
+                            src={`http://localhost:5000/uploads/${book.image}`}
+                            alt={book.title}
+                            className="w-12 h-16 object-cover rounded"
+                          />
+                        ) : (
+                          <div className="w-12 h-16 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">
+                            No Image
+                          </div>
+                        )}
+                      </td>
                       <td className="px-6 py-4">
                         <div className="flex flex-col">
                           <span className="font-bold text-sm md:text-base">{book.title}</span>

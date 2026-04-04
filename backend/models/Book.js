@@ -28,6 +28,9 @@ const bookSchema = new mongoose.Schema({
         required: true,
         min: 0,
     },
+    image: {
+        type: String, // Path to the uploaded image
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Book', bookSchema);

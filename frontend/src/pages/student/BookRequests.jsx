@@ -87,7 +87,7 @@ const BookRequests = () => {
 
   return (
 
-    <div className={`flex min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`flex min-h-screen ${isDarkMode ? 'bg-indigo-900 text-white' : 'bg-indigo-50 text-gray-900'}`}>
 
       {/* Sidebar */}
       <StudentSidebar />
@@ -135,22 +135,25 @@ const BookRequests = () => {
                     className={`p-6 rounded-xl border shadow-sm ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}
                   >
 
+                  {req.bookId?.image && (
+                    <img
+                      src={`http://localhost:5000/uploads/${req.bookId.image}`}
+                      alt={req.bookId.title}
+                      className="w-full h-40 object-cover rounded-xl mb-4"
+                    />
+                  )}
+
                     <div className="flex justify-between">
-
                       <div>
-
                         <h3 className="font-bold text-lg">{req.bookId?.title}</h3>
-
                         <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                           {req.bookId?.author}
                         </p>
-
                         {req.requestMessage && (
                           <p className="text-sm mt-2">
                             Message: {req.requestMessage}
                           </p>
                         )}
-
                       </div>
 
                       <span
@@ -200,14 +203,18 @@ const BookRequests = () => {
 
           <div className="mb-6 relative">
 
-            <FiSearch className={`absolute left-3 top-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+            {!searchTerm && (
+              <FiSearch className={`absolute left-3 top-1/2 -translate-y-1/2 transition-opacity duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`} />
+            )}
 
             <input
               type="text"
               placeholder="Search books..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+              className={`w-full ${searchTerm ? 'pl-4' : 'pl-10'} pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 ${
                 isDarkMode
                   ? 'bg-gray-800 border-gray-700 text-white'
                   : 'bg-white border-gray-300'
@@ -230,6 +237,14 @@ const BookRequests = () => {
                   key={book._id}
                   className={`p-6 rounded-xl border shadow-sm ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}
                 >
+
+                  {book.image && (
+                    <img
+                      src={`http://localhost:5000/uploads/${book.image}`}
+                      alt={book.title}
+                      className="w-full h-40 object-cover rounded-xl mb-4"
+                    />
+                  )}
 
                   <h3 className="text-lg font-bold mb-2">{book.title}</h3>
 

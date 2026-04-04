@@ -78,7 +78,7 @@ const AdminUsers = () => {
   return (
     <div
       className={`flex min-h-screen ${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
+        isDarkMode ? "bg-emerald-900 text-white" : "bg-emerald-50 text-gray-900"
       }`}
     >
       <AdminSidebar />
@@ -134,18 +134,20 @@ const AdminUsers = () => {
                 : "bg-white border-gray-200"
             }`}
           >
-            <FiSearch
-              size={20}
-              className={`absolute left-3 top-1/2 -translate-y-1/2 ${
-                isDarkMode ? "text-gray-400" : "text-gray-500"
-              }`}
-            />
+            {!searchTerm && (
+              <FiSearch
+                size={20}
+                className={`absolute left-3 top-1/2 -translate-y-1/2 transition-opacity duration-300 ${
+                  isDarkMode ? "text-gray-400" : "text-gray-500"
+                }`}
+              />
+            )}
             <input
               type="text"
               placeholder="Search by name or email"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full pl-10 pr-4 py-3 rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+              className={`w-full ${searchTerm ? 'pl-4' : 'pl-10'} pr-4 py-3 rounded-xl bg-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 ${
                 isDarkMode ? "text-white" : "text-gray-900"
               }`}
             />

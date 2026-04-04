@@ -42,8 +42,8 @@ const AdminSidebar = () => {
     <aside
       className={`w-64 min-h-screen flex-shrink-0 flex flex-col justify-between border-r ${
         isDarkMode
-          ? "bg-gray-950 border-gray-800 text-white"
-          : "bg-white border-gray-200 text-gray-900"
+          ? "bg-emerald-950 border-emerald-800 text-white"
+          : "bg-emerald-50 border-emerald-200 text-gray-900"
       }`}
     >
       <div>
