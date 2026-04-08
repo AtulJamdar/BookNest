@@ -9,7 +9,7 @@ const stats = [
 
 export default function StatsFullPage() {
   return (
-    <section className="min-h-screen w-full flex items-center justify-center bg-white px-4 py-16">
+    <section id="stats" className="min-h-screen w-full flex items-center justify-center bg-white px-4 py-16">
       <div className="w-full max-w-6xl">
         {/* Heading */}
         <div className="text-center mb-16">

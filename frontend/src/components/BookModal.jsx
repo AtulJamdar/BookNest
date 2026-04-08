@@ -11,7 +11,6 @@ const BookModal = ({ book, onClose, onSuccess }) => {
     category: '',
     isbn: '',
     totalCopies: '',
-    image: null,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -24,7 +23,6 @@ const BookModal = ({ book, onClose, onSuccess }) => {
         category: book.category,
         isbn: book.isbn || '',
         totalCopies: book.totalCopies,
-        image: null, // Don't set existing image here, as it's for new uploads
       });
     }
   }, [book]);
@@ -37,39 +35,16 @@ const BookModal = ({ book, onClose, onSuccess }) => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      image: e.target.files[0],
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      const data = new FormData();
-      data.append('title', formData.title);
-      data.append('author', formData.author);
-      data.append('category', formData.category);
-      data.append('isbn', formData.isbn);
-      data.append('totalCopies', formData.totalCopies);
-      if (formData.image) {
-        data.append('image', formData.image);
-      }
-
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      };
-
       if (book) {
-        await axios.put(`http://localhost:5000/api/books/${book._id}`, data, config);
+        await axios.put(`http://localhost:5000/api/books/${book._id}`, formData);
       } else {
-        await axios.post('http://localhost:5000/api/books', data, config);
+        await axios.post('http://localhost:5000/api/books', formData);
       }
       onSuccess();
     } catch (err) {
@@ -194,21 +169,6 @@ const BookModal = ({ book, onClose, onSuccess }) => {
                     : 'bg-gray-50 border-gray-300'
                 }`}
                 placeholder="Enter number of copies"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Book Image</label>
-              <input
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={handleFileChange}
-                className={`w-full px-4 py-2.5 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
-                  isDarkMode
-                    ? 'bg-gray-800 border-gray-700 placeholder-gray-400'
-                    : 'bg-gray-50 border-gray-300'
-                }`}
               />
             </div>
 

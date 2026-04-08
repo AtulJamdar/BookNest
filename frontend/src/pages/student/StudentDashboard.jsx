@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import StudentSidebar from "../../components/StudentSidebar";
 import DashboardMain from "../../components/layout/DashboardMain";
-import { FiCalendar, FiMessageSquare, FiSearch } from "react-icons/fi";
+import { FiCalendar, FiMessageSquare } from "react-icons/fi";
 
 const StudentDashboard = () => {
   const { isDarkMode } = useTheme();
@@ -195,27 +195,17 @@ const StudentDashboard = () => {
             </button>
           </div>
 
-          <div className="relative w-full max-w-xl mx-auto mb-10">
-            {!searchTerm && (
-              <FiSearch
-                size={20}
-                className={`absolute left-3 top-1/2 -translate-y-1/2 transition-opacity duration-300 ${
-                  isDarkMode ? "text-gray-500" : "text-gray-400"
-                }`}
-              />
-            )}
-            <input
-              type="text"
-              placeholder="Search books…"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full ${searchTerm ? "pl-4" : "pl-11"} pr-4 py-3 rounded-xl border text-center sm:text-left transition-all duration-300 ${
-                isDarkMode
-                  ? "bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 focus:ring-2 focus:ring-indigo-500"
-                  : "bg-white border-gray-200 focus:ring-2 focus:ring-indigo-500"
-              }`}
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="Search books…"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={`w-full max-w-xl mx-auto block px-4 py-3 rounded-xl border mb-10 text-center sm:text-left ${
+              isDarkMode
+                ? "bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 focus:ring-2 focus:ring-indigo-500"
+                : "bg-white border-gray-200 focus:ring-2 focus:ring-indigo-500"
+            }`}
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {filteredBooks.map((book) => (
@@ -227,13 +217,6 @@ const StudentDashboard = () => {
                     : "bg-white border-gray-200"
                 }`}
               >
-                {book.image && (
-                  <img
-                    src={`http://localhost:5000/uploads/${book.image}`}
-                    alt={book.title}
-                    className="w-full h-32 object-cover rounded-lg mb-4"
-                  />
-                )}
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
                   {book.title}
                 </h3>

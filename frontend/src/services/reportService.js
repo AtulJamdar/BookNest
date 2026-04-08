@@ -7,7 +7,7 @@ export const generateBooksReport = async(books) => {
     const doc = new jsPDF();
 
     doc.setFontSize(16);
-    doc.text('Books Report', 14, 15);
+    doc.text('📚 Books Report', 14, 15);
     doc.setFontSize(10);
     doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 25);
 
@@ -35,7 +35,7 @@ export const generateUsersReport = async(users) => {
     const doc = new jsPDF();
 
     doc.setFontSize(16);
-    doc.text('Users Report', 14, 15);
+    doc.text('👥 Users Report', 14, 15);
     doc.setFontSize(10);
     doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 25);
 
@@ -61,7 +61,7 @@ export const generateIssuesReport = async(issues) => {
     const doc = new jsPDF();
 
     doc.setFontSize(16);
-    doc.text('Issues Report', 14, 15);
+    doc.text('🔄 Issues Report', 14, 15);
     doc.setFontSize(10);
     doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 25);
 
@@ -88,7 +88,7 @@ export const generateFinesReport = async(fines) => {
     const doc = new jsPDF();
 
     doc.setFontSize(16);
-    doc.text('Fines Report', 14, 15);
+    doc.text('💰 Fines Report', 14, 15);
     doc.setFontSize(10);
     doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 25);
 

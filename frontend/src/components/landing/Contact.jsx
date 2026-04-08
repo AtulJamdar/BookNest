@@ -11,7 +11,7 @@ export default function ContactFullPage() {
   const update = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
-    <section className="min-h-screen w-full flex items-center justify-center bg-[#fafaf9] px-4">
+    <section id="contact" className="min-h-screen w-full flex items-center justify-center bg-[#fafaf9] px-4">
       <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
         {/* Left Content */}
         <div className="text-center lg:text-left">

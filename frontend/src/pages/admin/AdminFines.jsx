@@ -180,18 +180,16 @@ const AdminFines = () => {
 
           {/* Search */}
           <div className="relative">
-            {!searchTerm && (
-              <FiSearch
-                size={20}
-                className="absolute left-3 top-1/2 -translate-y-1/2 transition-opacity duration-300 text-gray-400"
-              />
-            )}
+            <FiSearch
+              size={20}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
             <input
               type="text"
               placeholder="Search by student name or book title..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full ${searchTerm ? 'pl-4' : 'pl-10'} pr-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 ${
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                 isDarkMode
                   ? "bg-gray-800 border-gray-700"
                   : "bg-white border-gray-300"

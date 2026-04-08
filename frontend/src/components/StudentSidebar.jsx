@@ -24,8 +24,8 @@ const StudentSidebar = () => {
     <aside
       className={`w-64 min-h-screen flex-shrink-0 flex flex-col justify-between border-r ${
         isDarkMode
-          ? "bg-indigo-950 border-indigo-800 text-white"
-          : "bg-indigo-50 border-indigo-200 text-gray-900"
+          ? "bg-gray-950 border-gray-800 text-white"
+          : "bg-white border-gray-200 text-gray-900"
       }`}
     >
       <div>

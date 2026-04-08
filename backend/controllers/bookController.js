@@ -52,7 +52,6 @@ exports.addBook = async (req, res) => {
       }
   
       const { title, author, category, isbn, totalCopies } = req.body;
-      const image = req.file ? req.file.filename : null;
   
       // Check if book with same ISBN already exists
       if (isbn) {
@@ -70,7 +69,6 @@ exports.addBook = async (req, res) => {
         isbn,
         totalCopies,
         availableCopies: totalCopies, // Initially all copies are available
-        image,
       });
   
       // Save book
@@ -98,7 +96,6 @@ exports.updateBook = async(req, res) => {
         }
 
         const { title, author, category, isbn, totalCopies } = req.body;
-        const image = req.file ? req.file.filename : null;
 
         //Find book
         let book = await Book.findById(req.params.id);
@@ -123,7 +120,6 @@ exports.updateBook = async(req, res) => {
             book.totalCopies = totalCopies;
             book.availableCopies = book.availableCopies + difference;
         }
-        if (image) book.image = image;
 
         //Save updated book
         await book.save();

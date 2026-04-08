@@ -24,7 +24,7 @@ export default function TestimonialsFullPage() {
   const t = quotes[idx];
 
   return (
-    <section className="min-h-screen w-full flex items-center justify-center bg-white px-4 py-16">
+    <section id="testimonials" className="min-h-screen w-full flex items-center justify-center bg-white px-4 py-16">
       <div className="w-full max-w-4xl text-center">
         {/* Heading */}
         <div className="mb-14">

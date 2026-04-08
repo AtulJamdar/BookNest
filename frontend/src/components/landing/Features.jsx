@@ -36,7 +36,7 @@ const features = [
 
 export default function FeaturesFullPage() {
   return (
-    <section className="min-h-screen w-full flex items-center justify-center bg-[#f7f5f2] px-4 py-16">
+    <section id="features" className="min-h-screen w-full flex items-center justify-center bg-[#f7f5f2] px-4 py-16">
       <div className="w-full max-w-6xl">
         {/* Heading */}
         <div className="text-center max-w-2xl mx-auto mb-14">
